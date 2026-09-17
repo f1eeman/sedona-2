@@ -1,9 +1,10 @@
 import { defineConfig, devices } from '@playwright/test'
 
-const PORT = 4331
+const PORT = Number(process.env['PLAYWRIGHT_PORT'] ?? 4331)
 
 export default defineConfig({
   testDir: './tests',
+  testIgnore: '_*.spec.ts',
   retries: 0,
   fullyParallel: true,
   reporter: [['list']],

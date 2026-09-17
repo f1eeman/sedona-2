@@ -1,0 +1,220 @@
+---
+import { HOTELS, HOTEL_FACILITIES, HOTEL_KINDS } from '@/data/hotels'
+import type { HotelFacility, HotelKind } from '@/data/hotels'
+
+const kindLabel = (value: HotelKind): string =>
+  HOTEL_KINDS.find((kind) => kind.value === value)?.label ?? value
+
+const facilityLabel = (value: HotelFacility): string =>
+  HOTEL_FACILITIES.find((facility) => facility.value === value)?.label ?? value
+---
+
+<section class="catalog">
+  <h2 class="visually-hidden">Список гостиниц</h2>
+
+  <ul class="catalog__list" data-hotels-list>
+    {
+      HOTELS.map((hotel) => (
+        <li
+          class="catalog__item hotel-card"
+          data-hotel
+          data-kind={hotel.kind}
+          data-kind-label={kindLabel(hotel.kind)}
+          data-price={hotel.price}
+          data-rating={hotel.rating}
+          data-facilities={hotel.facilities.join(' ')}
+          data-reveal="fade"
+        >
+          <img
+            class="hotel-card__image"
+            src={hotel.image}
+            width="135"
+            height="90"
+            loading="lazy"
+            alt={`${kindLabel(hotel.kind)}: ${hotel.title}`}
+          />
+
+          <div class="hotel-card__info">
+            <h3 class="hotel-card__title">{hotel.title}</h3>
+
+            <p class="hotel-card__meta">
+              <span class="hotel-card__kind">{kindLabel(hotel.kind)}</span>
+              <span class="hotel-card__price">от {hotel.price} р.</span>
+            </p>
+
+            <details class="hotel-card__details">
+              <summary class="hotel-card__summary">Подробнее</summary>
+              <ul class="hotel-card__facilities">
+                {hotel.facilities.map((facility) => (
+                  <li class="hotel-card__facility">
+                    {facilityLabel(facility)}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </div>
+
+          <p class="hotel-card__rating">
+            Рейтинг: {hotel.rating.toLocaleString('ru-RU')}
+          </p>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="catalog__empty" data-hotels-empty hidden>
+    По заданным условиям ничего не нашлось. Снимите часть ограничений.
+  </p>
+</section>
+
+<style>
+  .catalog {
+    padding-bottom: 40px;
+  }
+
+  .catalog__list {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .catalog__empty {
+    padding: 30px 20px 0;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .hotel-card {
+    display: grid;
+    grid-template-columns: 135px 1fr;
+    gap: 16px 20px;
+    padding: 24px 20px;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .hotel-card:last-child {
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .hotel-card__image {
+    width: 135px;
+    height: 90px;
+    object-fit: cover;
+  }
+
+  .hotel-card__title {
+    margin-bottom: 8px;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+  }
+
+  .hotel-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 30px;
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .hotel-card__details {
+    margin-top: 16px;
+  }
+
+  .hotel-card__summary {
+    display: inline-block;
+    min-width: 142px;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--color-text-inverse);
+    text-align: center;
+    text-transform: uppercase;
+    background-color: var(--color-brand);
+    cursor: pointer;
+    list-style: none;
+    transition:
+      background-color var(--duration-quick) var(--ease-out),
+      color var(--duration-quick) var(--ease-out),
+      scale var(--duration-quick) var(--ease-out);
+  }
+
+  .hotel-card__summary:focus-visible {
+    outline: 3px solid var(--color-text-strong);
+    outline-offset: 3px;
+  }
+
+  .hotel-card__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hotel-card__summary:hover,
+  .hotel-card__summary:focus {
+    background-color: var(--color-brand-hover);
+  }
+
+  .hotel-card__summary:active {
+    color: var(--color-text-inverse-faded);
+    background-color: var(--color-brand-active);
+    scale: 0.985;
+  }
+
+  .hotel-card__facilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .hotel-card__facility {
+    padding: 4px 12px;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-muted);
+  }
+
+  .hotel-card__rating {
+    grid-column: 1 / -1;
+    justify-self: start;
+    padding: 3px 15px;
+    font-size: 14px;
+    line-height: 21px;
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-muted);
+  }
+
+  @media (width >= 768px) {
+    .catalog {
+      max-width: var(--layout-width);
+      margin-inline: auto;
+      padding-bottom: 60px;
+    }
+
+    .hotel-card {
+      grid-template-columns: 135px 1fr auto;
+      align-items: start;
+      padding: 30px 60px;
+    }
+
+    .hotel-card__rating {
+      grid-column: auto;
+    }
+
+    .catalog__empty {
+      padding-inline: 60px;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .hotel-card {
+      padding-inline: 120px;
+    }
+
+    .catalog__empty {
+      padding-inline: 120px;
+    }
+  }
+</style>

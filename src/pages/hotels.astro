@@ -1,0 +1,25 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import HotelsFilter from '@/components/hotels-filter.astro'
+import HotelsSorting from '@/components/hotels-sorting.astro'
+import HotelsCatalog from '@/components/hotels-catalog.astro'
+---
+
+<Layout
+  title="Гостиницы — Седона"
+  description="Гостиницы, мотели и апартаменты Седоны: подбор по инфраструктуре, типу жилья и стоимости в сутки."
+  heading="Гостиницы"
+  path="/hotels/"
+>
+  <HotelsFilter />
+  <HotelsSorting />
+  <HotelsCatalog />
+</Layout>
+
+<script>
+  import { initPriceRange } from '@/scripts/price-range'
+  import { initHotels } from '@/scripts/hotels'
+
+  initPriceRange()
+  initHotels()
+</script>

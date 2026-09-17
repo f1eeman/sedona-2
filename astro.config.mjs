@@ -7,25 +7,26 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Open Sans',
-      cssVariable: '--font-open-sans',
-      fallbacks: ['sans-serif'],
+      name: 'PT Sans',
+      cssVariable: '--font-pt-sans',
+      fallbacks: ['Arial', 'sans-serif'],
       options: {
         variants: [
           {
             weight: 400,
             style: 'normal',
-            src: ['./src/assets/fonts/open-sans-400.woff2'],
-          },
-          {
-            weight: 600,
-            style: 'normal',
-            src: ['./src/assets/fonts/open-sans-600.woff2'],
+            src: [
+              './src/assets/fonts/ptsans.woff2',
+              './src/assets/fonts/ptsans.woff',
+            ],
           },
           {
             weight: 700,
             style: 'normal',
-            src: ['./src/assets/fonts/open-sans-700.woff2'],
+            src: [
+              './src/assets/fonts/ptsansbold.woff2',
+              './src/assets/fonts/ptsansbold.woff',
+            ],
           },
         ],
       },

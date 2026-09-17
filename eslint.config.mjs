@@ -89,6 +89,7 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/restrict-template-expressions': 'off',
       'astro/jsx-a11y/no-noninteractive-tabindex': [
         'error',
         { tags: [], roles: ['group', 'tabpanel'], allowExpressionValues: true },

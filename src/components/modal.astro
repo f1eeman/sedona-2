@@ -1,0 +1,113 @@
+---
+interface Props {
+  name: 'error' | 'success'
+  title: string
+  text: string
+  action: string
+}
+
+const props: Props = Astro.props
+const { name, title, text, action } = props
+const titleId = `modal-${name}-title`
+---
+
+<section
+  class:list={[`page-modal-${name}`, `modal-${name}`]}
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={titleId}
+  data-modal={name}
+  hidden
+>
+  <h2 class={`modal-${name}__title`} id={titleId}>{title}</h2>
+  <p class={`modal-${name}__text`} set:html={text} />
+  <button class={`modal-${name}__button button`} type="button" data-modal-close>
+    {action}
+  </button>
+</section>
+
+<style>
+  [data-modal] {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    width: 320px;
+    margin-left: -160px;
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-modal);
+  }
+
+  [data-modal='error'] {
+    margin-top: -145px;
+    padding: 40px 35px 35px;
+  }
+
+  [data-modal='success'] {
+    margin-top: -150px;
+    padding: 40px 20px 20px;
+  }
+
+  [data-modal].is-shown {
+    animation-duration: var(--duration-slow);
+  }
+
+  [data-modal='error'].is-shown {
+    animation-name: sedona-modal-alarm;
+    animation-timing-function: var(--ease-out);
+  }
+
+  [data-modal='success'].is-shown {
+    animation-name: sedona-modal-in;
+    animation-timing-function: var(--ease-out);
+  }
+
+  .modal-error__title,
+  .modal-success__title {
+    margin-inline: auto;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    text-align: center;
+  }
+
+  .modal-error__title {
+    width: 205px;
+  }
+
+  .modal-success__title {
+    width: 215px;
+  }
+
+  .modal-error__text,
+  .modal-success__text {
+    width: 215px;
+    margin-inline: auto;
+    margin-bottom: 30px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .modal-error__button,
+  .modal-success__button {
+    display: block;
+    min-height: 58px;
+    margin-inline: auto;
+  }
+
+  .modal-error__button {
+    width: 180px;
+  }
+
+  .modal-success__button {
+    width: 280px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-modal].is-shown {
+      animation: none;
+    }
+  }
+</style>

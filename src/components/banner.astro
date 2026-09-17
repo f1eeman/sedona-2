@@ -1,0 +1,171 @@
+---
+interface Props {
+  variant?: 'index' | 'inner'
+}
+
+const props: Props = Astro.props
+const { variant = 'inner' } = props
+const isIndex = variant === 'index'
+---
+
+<div class:list={['page-main__banner', !isIndex && 'page-main__banner--small']}>
+  <p
+    class:list={[
+      'page-main__banner-box',
+      !isIndex && 'page-main__banner-box--small',
+    ]}
+  >
+    {
+      isIndex ? (
+        <img
+          class="page-main__banner-text-big"
+          src="/img/text-sedona-index.svg"
+          width="280"
+          height="213"
+          alt="Welcome to the gorgeous Sedona"
+        />
+      ) : (
+        <img
+          class="page-main__banner-text-small"
+          src="/img/text-sedona.svg"
+          width="229"
+          height="39"
+          alt="Sedona"
+        />
+      )
+    }
+  </p>
+</div>
+
+<style>
+  .page-main__banner {
+    position: relative;
+    min-height: 389px;
+    padding-top: 91px;
+    background-color: var(--color-banner);
+    background-image: url('/img/bg-back-mobile@1x.jpg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+    view-transition-name: sedona-banner;
+  }
+
+  @media (resolution >= 1.5dppx) {
+    .page-main__banner {
+      background-image: url('/img/bg-back-mobile@2x.jpg');
+    }
+  }
+
+  .page-main__banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/img/bg-intro-triangle-mobile.svg');
+    background-repeat: no-repeat;
+    background-position: 50% 100%;
+    background-size: contain;
+    pointer-events: none;
+  }
+
+  .page-main__banner:not(.page-main__banner--small)::after {
+    animation: sedona-banner-cut var(--duration-scene) var(--ease-out) 80ms both;
+  }
+
+  .page-main__banner--small {
+    min-height: 158px;
+    padding-top: 52px;
+    background-position: 50% 100%;
+  }
+
+  .page-main__banner-box {
+    position: relative;
+    z-index: 1;
+    width: 280px;
+    height: 213px;
+    margin-inline: auto;
+  }
+
+  .page-main__banner-box:not(.page-main__banner-box--small) {
+    animation: sedona-banner-title var(--duration-slow) var(--ease-out) both;
+  }
+
+  .page-main__banner-box--small {
+    width: 229px;
+    height: 39px;
+  }
+
+  .page-main__banner-text-big {
+    width: 280px;
+    height: 213px;
+  }
+
+  .page-main__banner-text-small {
+    width: 229px;
+    height: 39px;
+  }
+
+  @media (width >= 768px) {
+    .page-main__banner {
+      max-width: var(--layout-width);
+      min-height: 518px;
+      padding-top: 80px;
+      margin-inline: auto;
+      background-image: url('/img/bg-back-tablet@1x.jpg');
+    }
+
+    @media (resolution >= 1.5dppx) {
+      .page-main__banner {
+        background-image: url('/img/bg-back-tablet@2x.jpg');
+      }
+    }
+
+    .page-main__banner::after {
+      background-image: url('/img/bg-intro-triangle-tablet.svg');
+    }
+
+    .page-main__banner--small {
+      min-height: 290px;
+      padding-top: 95px;
+    }
+
+    .page-main__banner-box,
+    .page-main__banner-text-big {
+      width: 460px;
+      height: 350px;
+    }
+
+    .page-main__banner-box--small,
+    .page-main__banner-text-small {
+      width: 458px;
+      height: 78px;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .page-main__banner {
+      padding-top: 76px;
+      background-image: url('/img/bg-back-desktop@1x.jpg');
+    }
+
+    @media (resolution >= 1.5dppx) {
+      .page-main__banner {
+        background-image: url('/img/bg-back-desktop@2x.jpg');
+      }
+    }
+
+    .page-main__banner::after {
+      background-image: url('/img/bg-intro-triangle-desktop.svg');
+    }
+
+    .page-main__banner--small {
+      min-height: 301px;
+      padding-top: 100px;
+    }
+
+    .page-main__banner-box--small,
+    .page-main__banner-text-small {
+      width: 460px;
+      height: 79px;
+    }
+  }
+</style>

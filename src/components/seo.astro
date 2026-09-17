@@ -9,17 +9,21 @@ const { title, description } = Astro.props
 const site = Astro.site as URL
 const canonical = new URL(Astro.url.pathname, site)
 
-const SITE_NAME = 'Название продукта'
-const OG_IMAGE = { path: '/og-image.png', width: 1200, height: 630 }
+const SITE_NAME = 'Седона'
+const OG_IMAGE = {
+  path: '/img/bg-back-desktop@1x.jpg',
+  width: 1200,
+  height: 518,
+}
 const ogImage = new URL(OG_IMAGE.path, site)
 
 const ORGANIZATION = {
-  name: 'Название организации',
-  legalName: 'Полное наименование организации',
+  name: 'Седона',
+  legalName: 'Туристический портал города Седона',
   url: 'https://example.invalid/',
   telephone: '+70000000000',
   email: 'mail@example.invalid',
-  country: 'KZ',
+  country: 'US',
 }
 
 const schema = {
@@ -71,6 +75,7 @@ const schema = {
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage.href} />
+<meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content={String(OG_IMAGE.width)} />
 <meta property="og:image:height" content={String(OG_IMAGE.height)} />
 <meta property="og:image:alt" content={title} />

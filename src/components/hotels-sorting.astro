@@ -1,0 +1,202 @@
+---
+const SORTS = [
+  { value: 'price', label: 'По цене' },
+  { value: 'kind', label: 'По типу' },
+  { value: 'rating', label: 'По рейтингу' },
+]
+---
+
+<section class="hotels-sorting">
+  <h2 class="hotels-sorting__found" role="status">
+    Найдено: <span data-hotels-count>0</span>
+  </h2>
+
+  <div class="hotels-sorting__controls" role="group" aria-label="Сортировка">
+    <span class="hotels-sorting__title" id="sorting-title">Сортировка:</span>
+
+    <ul class="hotels-sorting__list" aria-labelledby="sorting-title">
+      {
+        SORTS.map((sort, index) => (
+          <li class="hotels-sorting__item">
+            <button
+              class="hotels-sorting__button"
+              type="button"
+              aria-pressed={index === 0 ? 'true' : 'false'}
+              data-sort={sort.value}
+            >
+              {sort.label}
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="hotels-sorting__directions">
+      <li>
+        <button
+          class="hotels-sorting__direction hotels-sorting__direction--up"
+          type="button"
+          aria-pressed="true"
+          data-direction="asc"
+        >
+          <span class="visually-hidden">По возрастанию</span>
+        </button>
+      </li>
+      <li>
+        <button
+          class="hotels-sorting__direction hotels-sorting__direction--down"
+          type="button"
+          aria-pressed="false"
+          data-direction="desc"
+        >
+          <span class="visually-hidden">По убыванию</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hotels-sorting {
+    display: flex;
+    flex-flow: column;
+    gap: 16px;
+    padding: 28px 20px 24px;
+  }
+
+  .hotels-sorting__found {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+  }
+
+  .hotels-sorting__controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+    align-items: center;
+  }
+
+  .hotels-sorting__title {
+    font-size: 14px;
+    line-height: 26px;
+  }
+
+  .hotels-sorting__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+  }
+
+  .hotels-sorting__button {
+    position: relative;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 26px;
+    color: var(--color-text-faded);
+    text-transform: uppercase;
+    border-bottom: 1px dotted var(--color-brand);
+    transition:
+      color var(--duration-quick) var(--ease-out),
+      border-bottom-color var(--duration-quick) var(--ease-out);
+  }
+
+  .hotels-sorting__button:focus-visible {
+    outline: 3px solid var(--color-text-strong);
+    outline-offset: 3px;
+  }
+
+  .hotels-sorting__button::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    background-color: var(--color-brand);
+    transform-origin: right;
+    scale: 0 1;
+    transition: scale var(--duration-base) var(--ease-out);
+  }
+
+  .hotels-sorting__button:hover,
+  .hotels-sorting__button:focus {
+    color: var(--color-brand);
+    border-bottom-color: transparent;
+  }
+
+  .hotels-sorting__button:hover::after,
+  .hotels-sorting__button:focus-visible::after,
+  .hotels-sorting__button[aria-pressed='true']::after {
+    transform-origin: left;
+    scale: 1 1;
+  }
+
+  .hotels-sorting__button:active,
+  .hotels-sorting__button[aria-pressed='true'] {
+    color: var(--color-brand);
+    border-bottom-color: transparent;
+  }
+
+  .hotels-sorting__directions {
+    display: flex;
+    gap: 18px;
+    margin-left: auto;
+  }
+
+  .hotels-sorting__direction {
+    display: block;
+    width: 0;
+    height: 0;
+    border-inline: 5px solid transparent;
+    transition:
+      border-color var(--duration-quick) var(--ease-out),
+      translate var(--duration-base) var(--ease-out);
+  }
+
+  .hotels-sorting__direction:focus-visible {
+    outline: 3px solid var(--color-text-strong);
+    outline-offset: 6px;
+  }
+
+  .hotels-sorting__direction--up {
+    border-bottom: 10px solid var(--color-text-faded);
+  }
+
+  .hotels-sorting__direction--down {
+    border-top: 10px solid var(--color-text-faded);
+  }
+
+  .hotels-sorting__direction--up:hover,
+  .hotels-sorting__direction--up:focus,
+  .hotels-sorting__direction--up[aria-pressed='true'] {
+    border-bottom-color: var(--color-brand);
+  }
+
+  .hotels-sorting__direction--down:hover,
+  .hotels-sorting__direction--down:focus,
+  .hotels-sorting__direction--down[aria-pressed='true'] {
+    border-top-color: var(--color-brand);
+  }
+
+  @media (width >= 768px) {
+    .hotels-sorting {
+      flex-flow: row wrap;
+      gap: 20px 30px;
+      align-items: center;
+      max-width: var(--layout-width);
+      margin-inline: auto;
+      padding: 30px 60px 26px;
+    }
+
+    .hotels-sorting__controls {
+      flex: 1;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .hotels-sorting {
+      padding: 30px 120px 26px;
+    }
+  }
+</style>

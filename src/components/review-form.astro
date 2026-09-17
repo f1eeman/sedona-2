@@ -1,0 +1,825 @@
+---
+const IMPRESSIONS = [
+  { id: 'good', value: 'good', label: 'Скорее положительное', checked: true },
+  { id: 'bad', value: 'bad', label: 'Скорее отрицательное', checked: false },
+  {
+    id: 'unknown',
+    value: 'unknown',
+    label: 'Затрудняюсь ответить',
+    checked: false,
+  },
+]
+
+const ATTRACTIONS = [
+  { id: 'bridge', name: 'bridge', label: 'Дерзкий мост', checked: true },
+  { id: 'mountain', name: 'mountain', label: 'Гора-Колокол', checked: true },
+  { id: 'park', name: 'park', label: 'Слайд-парк', checked: true },
+  { id: 'rocks', name: 'rocks', label: 'Красные скалы', checked: false },
+]
+
+const PERSON_FIELDS = [
+  {
+    id: 'user-name',
+    name: 'name',
+    label: 'Имя*:',
+    placeholder: 'Петр',
+    required: true,
+  },
+  {
+    id: 'user-surname',
+    name: 'surname',
+    label: 'Фамилия*:',
+    placeholder: 'Иванов',
+    required: true,
+  },
+  {
+    id: 'user-patronymic',
+    name: 'patronymic',
+    label: 'Отчество:',
+    placeholder: 'Александрович',
+    required: false,
+  },
+]
+---
+
+<section class="page-main__filters filters">
+  <h2 class="filters__title">Оставьте свой отзыв</h2>
+
+  <div class="filters__box-intro">
+    <p class="filters__intro">
+      Помогите нашим отелям стать лучше! оставьте отзыв о них, а также о
+      посещенных вами достопримечательностях
+    </p>
+  </div>
+
+  <form class="filters__filter-form filter-form" novalidate data-review-form>
+    <fieldset class="filter-form__fieldset filter-form__fieldset--user-data">
+      <h3 class="filter-form__title filter-form__title--user-data">
+        Представьтесь:
+      </h3>
+      <ul class="filter-form__list filter-form__list--user-data">
+        {
+          PERSON_FIELDS.map((field) => (
+            <li class="filter-form__item filter-form__item--user-data">
+              <label class="filter-form__label" for={field.id}>
+                {field.label}
+              </label>
+              <input
+                class:list={[
+                  'filter-form__control',
+                  'filter-form__control--user-data',
+                  field.name === 'patronymic' &&
+                    'filter-form__control--patronymic',
+                ]}
+                id={field.id}
+                name={field.name}
+                type="text"
+                placeholder={field.placeholder}
+                data-required={field.required ? '' : undefined}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </fieldset>
+
+    <fieldset class="filter-form__fieldset filter-form__fieldset--contacts">
+      <div class="filter-form__box-title" data-reveal="fade">
+        <h3 class="filter-form__title filter-form__title--contacts">
+          Контактная информация:
+        </h3>
+      </div>
+      <ul class="filter-form__list filter-form__list--contacts">
+        <li
+          class="filter-form__item filter-form__item--contacts filter-form__item--phone"
+        >
+          <label
+            class="filter-form__label filter-form__label--contacts filter-form__label--phone"
+            for="user-phone"
+          >
+            <span class="filter-form__word">Контактный</span> телефон*:
+          </label>
+          <input
+            class="filter-form__control filter-form__control--contacts"
+            id="user-phone"
+            name="user-phone"
+            type="tel"
+            placeholder="Введите телефон"
+            data-required
+          />
+          <span class="filter-form__icon">
+            <svg
+              class="filter-form__glyph"
+              width="18"
+              height="18"
+              aria-hidden="true"
+            >
+              <use href="#icon-phone"></use>
+            </svg>
+          </span>
+        </li>
+        <li
+          class="filter-form__item filter-form__item--contacts filter-form__item--email"
+        >
+          <label
+            class="filter-form__label filter-form__label--contacts filter-form__label--email"
+            for="user-email"
+          >
+            Электронная почта*:
+          </label>
+          <input
+            class="filter-form__control filter-form__control--contacts"
+            id="user-email"
+            name="user-email"
+            type="email"
+            placeholder="Введите e-mail"
+            data-required
+          />
+          <span class="filter-form__icon">
+            <svg
+              class="filter-form__glyph"
+              width="16"
+              height="16"
+              aria-hidden="true"
+            >
+              <use href="#icon-mail"></use>
+            </svg>
+          </span>
+        </li>
+      </ul>
+    </fieldset>
+
+    <fieldset class="filter-form__fieldset filter-form__fieldset--impression">
+      <h3 class="filter-form__title filter-form__title--impression">
+        Ваше общее впечатление:
+      </h3>
+      <ul class="filter-form__list filter-form__list--impression">
+        {
+          IMPRESSIONS.map((item) => (
+            <li class="filter-form__item filter-form__item--switch">
+              <input
+                class="filter-form__control filter-form__control--radio visually-hidden"
+                id={item.id}
+                name="user-impression"
+                type="radio"
+                value={item.value}
+                checked={item.checked}
+              />
+              <label
+                class="filter-form__label filter-form__label--switch filter-form__label--radio"
+                for={item.id}
+              >
+                {item.label}
+              </label>
+            </li>
+          ))
+        }
+      </ul>
+    </fieldset>
+
+    <fieldset class="filter-form__fieldset filter-form__fieldset--attractions">
+      <div class="filter-form__box-title" data-reveal="fade">
+        <h3 class="filter-form__title filter-form__title--attractions">
+          Посещенные достопримечательности:
+        </h3>
+      </div>
+      <ul class="filter-form__list filter-form__list--attractions">
+        {
+          ATTRACTIONS.map((item) => (
+            <li class="filter-form__item filter-form__item--switch filter-form__item--checkbox">
+              <input
+                class="filter-form__control filter-form__control--checkbox visually-hidden"
+                id={item.id}
+                name={item.name}
+                type="checkbox"
+                checked={item.checked}
+              />
+              <label
+                class="filter-form__label filter-form__label--switch filter-form__label--checkbox"
+                for={item.id}
+              >
+                {item.label}
+              </label>
+            </li>
+          ))
+        }
+      </ul>
+    </fieldset>
+
+    <fieldset class="filter-form__fieldset filter-form__fieldset--emotions">
+      <div class="filter-form__box-title" data-reveal="fade">
+        <h3 class="filter-form__title filter-form__title--emotions">
+          Опишите свои эмоции:
+        </h3>
+      </div>
+      <p class="filter-form__box-emotions">
+        <label class="filter-form__label visually-hidden" for="additional-info">
+          Дополнительная информация:
+        </label>
+        <textarea
+          class="filter-form__control filter-form__control--textarea"
+          name="additional-info"
+          id="additional-info"
+          placeholder="Опишите подробно все свои восторги"></textarea>
+      </p>
+    </fieldset>
+
+    <button class="filter-form__button button" type="submit">
+      Отправить отзыв
+    </button>
+    <p class="filter-form__info">* – Обязательные поля</p>
+  </form>
+</section>
+
+<style>
+  .filters {
+    padding-top: 39px;
+  }
+
+  .filters__title {
+    width: 240px;
+    margin-inline: auto;
+    margin-bottom: 26px;
+    padding-inline: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+    text-align: center;
+  }
+
+  .filters__box-intro {
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .filters__intro {
+    max-width: 481px;
+    margin-inline: auto;
+    padding-inline: 20px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .filter-form {
+    padding-bottom: 41px;
+  }
+
+  .filter-form__fieldset {
+    padding-block: 18px 25px;
+    border: none;
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .filter-form__fieldset--contacts {
+    padding-bottom: 29px;
+  }
+
+  .filter-form__fieldset--impression {
+    padding-bottom: 23px;
+  }
+
+  .filter-form__fieldset--attractions {
+    padding-bottom: 21px;
+  }
+
+  .filter-form__fieldset--emotions {
+    padding-bottom: 45px;
+    border-bottom: none;
+  }
+
+  .filter-form__title {
+    width: 290px;
+    margin-inline: auto;
+    margin-bottom: 21px;
+    padding-inline: 20px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+    text-align: center;
+  }
+
+  .filter-form__title--contacts {
+    margin-bottom: 20px;
+  }
+
+  .filter-form__title--impression {
+    margin-bottom: 17px;
+  }
+
+  .filter-form__title--attractions {
+    margin-bottom: 11px;
+  }
+
+  .filter-form__title--emotions {
+    margin-bottom: 17px;
+  }
+
+  .filter-form__list {
+    display: flex;
+    flex-flow: column;
+    padding-inline: 20px;
+  }
+
+  .filter-form__item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 58px;
+    margin-bottom: 20px;
+  }
+
+  .filter-form__item--contacts {
+    position: relative;
+    flex-wrap: wrap;
+    margin-bottom: 13px;
+  }
+
+  .filter-form__item--switch {
+    min-height: 66px;
+    margin-bottom: 3px;
+    padding-left: 70px;
+  }
+
+  .filter-form__item--checkbox {
+    margin-bottom: 14px;
+  }
+
+  .filter-form__item:last-child {
+    margin-bottom: 0;
+  }
+
+  .filter-form__control {
+    width: 100%;
+    min-height: 58px;
+    margin-left: 13px;
+    padding: 16px 21px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+    background-color: var(--color-surface-muted);
+    border: none;
+    transition:
+      background-color var(--duration-quick) var(--ease-out),
+      outline-color var(--duration-quick) var(--ease-out);
+  }
+
+  .filter-form__control::placeholder {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+    opacity: 1;
+  }
+
+  .filter-form__control--patronymic {
+    margin-left: 16px;
+  }
+
+  .filter-form__control--contacts {
+    margin-left: 0;
+    padding-right: 80px;
+  }
+
+  .filter-form__control--textarea {
+    min-height: 160px;
+    margin-left: 0;
+    resize: none;
+    overflow: auto;
+  }
+
+  .filter-form__control:hover {
+    background-color: var(--color-surface-dim);
+  }
+
+  .filter-form__control:hover + .filter-form__icon {
+    fill: var(--color-brand-hover);
+  }
+
+  .filter-form__control:focus,
+  .filter-form__control:active {
+    background-color: var(--color-bg);
+    outline: 4px solid var(--color-surface-dim);
+  }
+
+  .filter-form__control[aria-invalid='true'],
+  .filter-form__control[aria-invalid='true']:hover,
+  .filter-form__control[aria-invalid='true']:focus {
+    background-color: var(--color-bg);
+    outline: 4px solid var(--color-error);
+  }
+
+  .filter-form__control[aria-invalid='true'] + .filter-form__icon {
+    fill: var(--color-error-icon);
+    background-color: var(--color-error);
+  }
+
+  .filter-form__label {
+    font-size: 14px;
+    line-height: 26px;
+    cursor: pointer;
+  }
+
+  .filter-form__label--contacts {
+    margin-bottom: 6px;
+    padding-left: 22px;
+  }
+
+  .filter-form__label--switch {
+    position: relative;
+    padding-left: 9px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+    text-transform: none;
+  }
+
+  .filter-form__label--switch::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -70px;
+    display: block;
+    width: 56px;
+    height: 56px;
+    background-color: var(--color-surface-muted);
+  }
+
+  .filter-form__label--switch:hover::before {
+    background-color: var(--color-surface-dim);
+  }
+
+  .filter-form__label--switch:active::before {
+    background-color: var(--color-surface-pressed);
+  }
+
+  .filter-form__label--radio::before {
+    border-radius: 50%;
+  }
+
+  .filter-form__label--checkbox::before {
+    border-radius: 5px;
+  }
+
+  .filter-form__control:focus-visible + .filter-form__label--switch::before {
+    outline: 2px solid var(--color-brand-active);
+    outline-offset: 2px;
+  }
+
+  .filter-form__label--radio::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: -53px;
+    display: block;
+    width: 22px;
+    height: 22px;
+    background-color: var(--color-text);
+    border-radius: 50%;
+    scale: 0;
+    transition: scale var(--duration-base) var(--ease-out-back);
+  }
+
+  .filter-form__control:checked + .filter-form__label--radio::after {
+    scale: 1;
+  }
+
+  .filter-form__control:checked + .filter-form__label--radio:active::after {
+    background-color: var(--color-text-faded);
+  }
+
+  .filter-form__label--checkbox::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -52px;
+    display: block;
+    width: 20px;
+    height: 13px;
+    border: 3px solid var(--color-check);
+    border-top-style: none;
+    border-right-style: none;
+    transform: rotate(-45deg);
+    scale: 0;
+    transition: scale var(--duration-base) var(--ease-out-back);
+  }
+
+  .filter-form__control:checked + .filter-form__label--checkbox::after {
+    scale: 1;
+  }
+
+  .filter-form__control:checked + .filter-form__label--checkbox:active::after {
+    border-color: var(--color-check-faded);
+  }
+
+  .filter-form__icon {
+    position: absolute;
+    top: 32px;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 58px;
+    height: 58px;
+    fill: var(--color-text-strong);
+    background-color: var(--color-surface-field-icon);
+    transition:
+      background-color var(--duration-quick) var(--ease-out),
+      fill var(--duration-quick) var(--ease-out);
+  }
+
+  .filter-form__box-emotions {
+    padding-inline: 20px;
+  }
+
+  .filter-form__button {
+    display: block;
+    width: 280px;
+    min-height: 58px;
+    margin-inline: auto;
+  }
+
+  .filter-form__info {
+    display: none;
+  }
+
+  @media (width >= 768px) {
+    .filters {
+      max-width: var(--layout-width);
+      margin-inline: auto;
+      padding-top: 75px;
+    }
+
+    .filters__title {
+      width: 375px;
+      margin-bottom: 32px;
+      font-size: 30px;
+    }
+
+    .filters__box-intro {
+      border-bottom: none;
+    }
+
+    .filter-form {
+      display: flex;
+      flex-wrap: wrap;
+      padding-block: 56px 65px;
+      padding-inline: 60px;
+    }
+
+    .filter-form__fieldset {
+      width: 100%;
+      padding: 0;
+      border-bottom: none;
+    }
+
+    .filter-form__fieldset--user-data {
+      width: 50%;
+      max-width: 50%;
+      margin-bottom: 65px;
+      padding-left: 43px;
+    }
+
+    .filter-form__fieldset--impression {
+      width: 50%;
+      margin-bottom: 65px;
+      border-right: 1px solid var(--color-divider-form);
+      order: -1;
+    }
+
+    .filter-form__fieldset--contacts {
+      margin-bottom: 53px;
+    }
+
+    .filter-form__fieldset--attractions {
+      margin-bottom: 44px;
+    }
+
+    .filter-form__box-title {
+      position: relative;
+    }
+
+    .filter-form__box-title::before,
+    .filter-form__box-title::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 19%;
+      height: 1px;
+      background-color: var(--color-divider-form);
+    }
+
+    html[data-reveal] .filter-form__box-title::before,
+    html[data-reveal] .filter-form__box-title::after {
+      scale: 0 1;
+      transition: scale var(--duration-slow) var(--ease-out);
+    }
+
+    html[data-reveal] .filter-form__box-title::before {
+      transform-origin: right;
+    }
+
+    html[data-reveal] .filter-form__box-title::after {
+      transform-origin: left;
+    }
+
+    html[data-reveal] .filter-form__box-title[data-revealed]::before,
+    html[data-reveal] .filter-form__box-title[data-revealed]::after {
+      scale: 1 1;
+    }
+
+    .filter-form__box-title::before {
+      left: 0;
+    }
+
+    .filter-form__box-title::after {
+      right: 0;
+    }
+
+    .filter-form__title {
+      width: 281px;
+      padding: 0;
+      font-size: 21px;
+    }
+
+    .filter-form__title--impression {
+      margin: 0 0 53px;
+      text-align: left;
+    }
+
+    .filter-form__title--user-data {
+      margin: 0 0 57px;
+      padding-left: 14px;
+      text-align: left;
+    }
+
+    .filter-form__title--contacts {
+      margin-bottom: 25px;
+    }
+
+    .filter-form__title--attractions {
+      margin-bottom: 38px;
+    }
+
+    .filter-form__title--emotions {
+      margin-bottom: 59px;
+    }
+
+    .filter-form__list {
+      padding: 0;
+    }
+
+    .filter-form__list--user-data {
+      padding-left: 14px;
+    }
+
+    .filter-form__list--attractions {
+      flex-flow: row wrap;
+      margin-left: -53px;
+      padding-inline: 95px 80px;
+    }
+
+    .filter-form__item {
+      margin-bottom: 12px;
+    }
+
+    .filter-form__item--user-data {
+      margin-bottom: 20px;
+    }
+
+    .filter-form__item--contacts {
+      margin-bottom: 24px;
+    }
+
+    .filter-form__item--checkbox,
+    .filter-form__item--checkbox:last-child {
+      width: 205px;
+      margin-left: 53px;
+      margin-bottom: 20px;
+    }
+
+    .filter-form__label--switch {
+      padding-left: 5px;
+    }
+
+    .filter-form__label--checkbox {
+      padding-left: 10px;
+    }
+
+    .filter-form__box-emotions {
+      margin-bottom: 50px;
+      padding: 0;
+    }
+
+    .filter-form__button {
+      width: 324px;
+      margin: 0;
+    }
+
+    .filter-form__info {
+      display: block;
+      margin-left: auto;
+      padding-top: 22px;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .filters {
+      padding-top: 110px;
+    }
+
+    .filter-form {
+      padding-block: 41px 71px;
+      padding-inline: 120px;
+    }
+
+    .filter-form__fieldset--contacts {
+      margin-bottom: 27px;
+    }
+
+    .filter-form__fieldset--attractions {
+      margin-bottom: 41px;
+    }
+
+    .filter-form__title--impression {
+      width: 400px;
+      padding-left: 80px;
+    }
+
+    .filter-form__title--user-data {
+      width: 250px;
+      padding-left: 35px;
+    }
+
+    .filter-form__title--contacts {
+      margin-bottom: 74px;
+    }
+
+    .filter-form__title--attractions {
+      margin-bottom: 36px;
+    }
+
+    .filter-form__list--impression {
+      padding-left: 3px;
+    }
+
+    .filter-form__list--user-data {
+      padding-left: 38px;
+    }
+
+    .filter-form__list--contacts {
+      flex-direction: row;
+      margin-left: -80px;
+    }
+
+    .filter-form__list--attractions {
+      justify-content: space-between;
+      margin-left: 0;
+      padding-inline: 0;
+    }
+
+    .filter-form__item--contacts,
+    .filter-form__item--contacts:last-child {
+      flex-wrap: nowrap;
+      width: 440px;
+      margin-left: 80px;
+      margin-bottom: 25px;
+    }
+
+    .filter-form__item--checkbox,
+    .filter-form__item--checkbox:last-child {
+      width: auto;
+      margin-left: 0;
+    }
+
+    .filter-form__word {
+      display: none;
+    }
+
+    .filter-form__label--contacts {
+      flex-shrink: 0;
+      width: 155px;
+      margin-right: 7px;
+      margin-bottom: 0;
+      padding-left: 0;
+    }
+
+    .filter-form__icon {
+      top: 0;
+    }
+
+    .filter-form__box-title::before,
+    .filter-form__box-title::after {
+      width: 280px;
+    }
+
+    .filter-form__button {
+      width: 480px;
+    }
+  }
+</style>

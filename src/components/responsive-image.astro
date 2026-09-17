@@ -1,0 +1,60 @@
+---
+interface Props {
+  name: string
+  alt: string
+}
+
+const props: Props = Astro.props
+const src = (device: string, density: string, ext: string): string =>
+  `/img/${props.name}-${device}@${density}.${ext}`
+
+const { alt } = props
+---
+
+<picture>
+  <source
+    type="image/webp"
+    media="(min-width: 1200px)"
+    srcset={`${src('desktop', '1x', 'webp')} 1x, ${src('desktop', '2x', 'webp')} 2x`}
+  />
+  <source
+    type="image/webp"
+    media="(min-width: 768px)"
+    srcset={`${src('tablet', '1x', 'webp')} 1x, ${src('tablet', '2x', 'webp')} 2x`}
+  />
+  <source
+    type="image/webp"
+    srcset={`${src('mobile', '1x', 'webp')} 1x, ${src('mobile', '2x', 'webp')} 2x`}
+  />
+  <source
+    media="(min-width: 1200px)"
+    srcset={`${src('desktop', '1x', 'jpg')} 1x, ${src('desktop', '2x', 'jpg')} 2x`}
+  />
+  <source
+    media="(min-width: 768px)"
+    srcset={`${src('tablet', '1x', 'jpg')} 1x, ${src('tablet', '2x', 'jpg')} 2x`}
+  />
+  <img
+    class="image"
+    src={src('mobile', '1x', 'jpg')}
+    srcset={`${src('mobile', '2x', 'jpg')} 2x`}
+    alt={alt}
+  />
+</picture>
+
+<style>
+  picture {
+    display: block;
+    height: 100%;
+  }
+
+  .image {
+    width: 100%;
+    height: var(--image-height, 100%);
+    margin-top: var(--image-offset, 0);
+    vertical-align: bottom;
+    object-fit: cover;
+    scale: var(--image-scale, 1);
+    transition: scale var(--duration-slow) var(--ease-out);
+  }
+</style>

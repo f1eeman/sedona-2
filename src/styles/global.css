@@ -8,35 +8,43 @@ html {
 }
 
 body {
-  font-family: var(--font-open-sans);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--color-text);
-  background-color: var(--color-bg);
-}
-
-.container {
-  width: 100%;
-  max-width: calc(var(--layout-width) + var(--layout-gutter) * 2);
+  display: flex;
+  flex-flow: column;
+  min-height: 100dvh;
+  max-width: var(--layout-width);
   margin-inline: auto;
-  padding-inline: var(--layout-gutter);
+  font-family: var(--font-pt-sans);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--color-text);
+  text-transform: uppercase;
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-page);
 }
 
-.section + .section:not([data-region], [data-band]) {
-  margin-block-start: var(--block-gap);
+img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
 
-.section[data-region] {
-  margin-block-start: var(--region-gap);
+.page-main {
+  flex-grow: 1;
 }
 
-.section:not([data-band]):has(+ .section[data-band]) {
-  margin-block-end: var(--region-gap);
+.main-style-title {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 26px;
+  color: var(--color-text-strong);
 }
 
-main > .section:last-child {
-  margin-block-end: var(--region-gap);
+@media (width >= 768px) {
+  .main-style-title {
+    font-size: 21px;
+  }
 }
 
 .visually-hidden:not(:focus),
@@ -51,4 +59,69 @@ input[type='radio'].visually-hidden {
   clip-path: inset(100%);
   overflow: hidden;
   white-space: nowrap;
+}
+
+.button {
+  display: inline-block;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 21px;
+  line-height: 26px;
+  color: var(--color-text-inverse);
+  text-align: center;
+  text-transform: uppercase;
+  background-color: var(--color-brand);
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-quick) var(--ease-out),
+    color var(--duration-quick) var(--ease-out),
+    scale var(--duration-quick) var(--ease-out);
+}
+
+.button:hover,
+.button:focus {
+  background-color: var(--color-brand-hover);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--color-text-strong);
+  outline-offset: 3px;
+}
+
+.button:active {
+  color: var(--color-text-inverse-faded);
+  background-color: var(--color-brand-active);
+  scale: 0.985;
+}
+
+.button[disabled] {
+  background-color: var(--color-surface-dim);
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-group(sedona-banner),
+::view-transition-group(sedona-logo) {
+  animation-duration: var(--duration-slow);
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-group(sedona-logo) {
+  z-index: 2;
+}
+
+::view-transition-old(sedona-banner),
+::view-transition-new(sedona-banner) {
+  height: 100%;
+  object-fit: cover;
+  overflow: clip;
+}
+
+::view-transition-old(sedona-logo),
+::view-transition-new(sedona-logo) {
+  height: 100%;
+  object-fit: contain;
 }

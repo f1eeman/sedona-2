@@ -1,0 +1,323 @@
+---
+import ResponsiveImage from '@/components/responsive-image.astro'
+import { PHOTOS } from '@/data/photos'
+---
+
+<section class="photo">
+  <h3 class="visually-hidden">Фото</h3>
+
+  <div class="photo__box-intro">
+    <p class="photo__intro">
+      Не можете решиться на путешествие из-за курса? Фотографии помогут вам
+      забыть о политике и экономике.
+    </p>
+  </div>
+
+  <ul class="photo__list">
+    {
+      PHOTOS.map((photo) => (
+        <li
+          class:list={[
+            'photo__item',
+            'photo-card',
+            `photo-card--${photo.size}`,
+          ]}
+          data-reveal="fade"
+        >
+          <div class="photo-card__container">
+            <div
+              class:list={[
+                'photo-card__wrapper',
+                photo.size === 'small' && 'photo-card__wrapper--small',
+                photo.shade && 'photo-card__wrapper--shade',
+              ]}
+            >
+              <div class="photo-card__box-header">
+                <h4 class="photo-card__title">{photo.title}</h4>
+                <p class="photo-card__text">
+                  <span class="photo-card__author">Автор фото:</span>{' '}
+                  <span class="photo-card__name">{photo.author}</span>
+                </p>
+              </div>
+              <div class="photo-card__box-likes" data-like-group>
+                <button
+                  class="photo-card__like"
+                  type="button"
+                  aria-pressed="false"
+                  data-like
+                >
+                  <span class="visually-hidden">Поставить лайк</span>
+                  <svg
+                    class="photo-card__icon-like"
+                    width="24"
+                    height="22"
+                    aria-hidden="true"
+                  >
+                    <use href="#icon-like" />
+                  </svg>
+                </button>
+                <span class="photo-card__count-likes" data-like-count>
+                  {photo.likes}
+                </span>
+              </div>
+            </div>
+            <a
+              class:list={[
+                'photo-card__image-link',
+                photo.size === 'full' && 'photo-card__image-link--full',
+              ]}
+              href={`/img/${photo.image}-desktop@2x.jpg`}
+            >
+              <ResponsiveImage name={photo.image} alt={photo.title} />
+            </a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<script>
+  import { initLikes } from '@/scripts/likes'
+
+  initLikes()
+</script>
+
+<style>
+  .photo {
+    padding-top: 12px;
+  }
+
+  .photo__box-intro {
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .photo__intro {
+    max-width: 550px;
+    margin-inline: auto;
+    padding-inline: 20px;
+    padding-bottom: 27px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .photo-card {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+    color: var(--color-text-strong);
+    border-bottom: 1px solid var(--color-divider);
+  }
+
+  .photo-card__container {
+    display: flex;
+    flex-direction: column;
+    margin-inline: auto;
+    padding: 22px 20px 17px;
+  }
+
+  .photo-card__image-link {
+    display: block;
+    height: 280px;
+    margin-bottom: 15px;
+    overflow: clip;
+    order: -1;
+  }
+
+  .photo-card__image-link:focus-visible {
+    outline: 3px solid var(--color-text-strong);
+    outline-offset: -3px;
+  }
+
+  .photo-card__title {
+    width: 200px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .photo-card__text {
+    width: 140px;
+    margin-bottom: 5px;
+    font-weight: 400;
+    color: var(--color-text);
+    text-transform: none;
+  }
+
+  .photo-card__box-likes {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100px;
+  }
+
+  .photo-card__like {
+    margin-right: 11px;
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .photo-card__like:focus-visible {
+    outline: 3px solid currentcolor;
+    outline-offset: 3px;
+  }
+
+  .photo-card__like:hover .photo-card__icon-like,
+  .photo-card__like:focus .photo-card__icon-like {
+    fill: var(--color-brand-hover);
+  }
+
+  .photo-card__like:active .photo-card__icon-like {
+    fill: var(--color-brand-active);
+  }
+
+  .photo-card__like[aria-pressed='true'] .photo-card__icon-like {
+    fill: var(--color-brand);
+    animation: sedona-like var(--duration-slow) var(--ease-out-back);
+  }
+
+  .photo-card__icon-like {
+    width: 24px;
+    height: 22px;
+    fill: var(--color-overlay);
+    transition: fill var(--duration-quick) var(--ease-out);
+  }
+
+  .photo-card__count-likes {
+    padding-top: 3px;
+  }
+
+  @media (width >= 321px) {
+    .photo__intro {
+      max-width: 550px;
+    }
+  }
+
+  @media (width >= 768px) {
+    .photo__list {
+      display: flex;
+      flex-wrap: wrap;
+      padding-top: 42px;
+    }
+
+    .photo__box-intro {
+      border-bottom: none;
+    }
+
+    .photo__intro {
+      padding-inline: 60px;
+    }
+
+    .photo-card {
+      width: 50%;
+      border-bottom: none;
+    }
+
+    .photo-card--full {
+      width: 100%;
+    }
+
+    .photo-card__container {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .photo-card__image-link {
+      width: 100%;
+      height: 267px;
+      margin-bottom: 0;
+    }
+
+    .photo-card__image-link--full {
+      height: 400px;
+    }
+
+    .photo-card__wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      min-height: 80px;
+      padding: 15px 21px 0;
+      background-color: var(--color-surface-muted);
+    }
+
+    .photo-card__wrapper--shade {
+      background-color: var(--color-surface-card);
+    }
+
+    .photo-card__wrapper--small {
+      padding-right: 31px;
+    }
+
+    .photo-card__box-likes {
+      justify-content: flex-end;
+      align-items: flex-start;
+      padding-top: 12px;
+    }
+
+    .photo-card__like {
+      margin-right: 8px;
+    }
+
+    .photo-card__count-likes {
+      padding-top: 0;
+    }
+  }
+
+  @media (hover: hover) and (width >= 1200px) {
+    .photo-card__container:hover .photo-card__image-link,
+    .photo-card__container:focus-within .photo-card__image-link {
+      --image-scale: 1.05;
+    }
+
+    .photo-card__container:hover .photo-card__wrapper,
+    .photo-card__container:focus-within .photo-card__wrapper {
+      background-color: rgb(0 0 0 / 45%);
+    }
+  }
+
+  @media (width >= 1200px) {
+    .photo__list {
+      padding-top: 44px;
+      padding-inline: 0;
+    }
+
+    .photo-card {
+      width: 400px;
+    }
+
+    .photo-card--full {
+      width: 100%;
+    }
+
+    .photo-card__container {
+      position: relative;
+    }
+
+    .photo-card__wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      color: var(--color-text-inverse);
+      background-color: var(--color-overlay);
+      transition: background-color var(--duration-base) var(--ease-out);
+    }
+
+    .photo-card__wrapper--shade {
+      background-color: var(--color-overlay);
+    }
+
+    .photo-card__title,
+    .photo-card__text,
+    .photo-card__count-likes {
+      color: var(--color-text-inverse);
+    }
+
+    .photo-card__icon-like {
+      fill: var(--color-text-inverse);
+    }
+  }
+</style>

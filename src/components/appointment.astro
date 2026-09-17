@@ -1,0 +1,74 @@
+<section class="page-main__appointment appointment">
+  <h2 class="appointment__title" data-reveal>Заинтересовались?</h2>
+  <p class="appointment__info" data-reveal>
+    Укажите предполагаемые даты поездки, и мы покажем вам лучшие предложения
+    гостиниц в седоне
+  </p>
+  <a class="appointment__search button" href="/hotels/">Найти гостиницу</a>
+</section>
+
+<style>
+  .appointment {
+    padding: 29px 20px 49px;
+  }
+
+  .appointment__title {
+    width: 280px;
+    margin-inline: auto;
+    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 21px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+    text-align: center;
+  }
+
+  .appointment__info {
+    width: 280px;
+    margin-inline: auto;
+    margin-bottom: 35px;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  .appointment__search {
+    width: 100%;
+    padding: 15px 35px;
+  }
+
+  @media (width >= 768px) {
+    .appointment {
+      max-width: var(--layout-width);
+      margin-inline: auto;
+      padding-block: 56px 58px;
+    }
+
+    .appointment__title {
+      width: 325px;
+      margin-bottom: 30px;
+      font-size: 30px;
+    }
+
+    .appointment__info {
+      width: 440px;
+      margin-bottom: 44px;
+    }
+
+    .appointment__search {
+      display: block;
+      width: 458px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .appointment {
+      padding-bottom: 66px;
+    }
+
+    .appointment__info {
+      margin-bottom: 49px;
+    }
+  }
+</style>

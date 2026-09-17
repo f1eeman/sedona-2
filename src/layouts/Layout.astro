@@ -1,7 +1,9 @@
 ---
 import { Font } from 'astro:assets'
 import Seo from '@/components/seo.astro'
+import Sprite from '@/components/sprite.astro'
 import Header from '@/components/header.astro'
+import Banner from '@/components/banner.astro'
 import Footer from '@/components/footer.astro'
 
 import '@/styles/index.css'
@@ -9,9 +11,12 @@ import '@/styles/index.css'
 interface Props {
   title: string
   description: string
+  heading: string
+  path: string
+  banner?: 'index' | 'inner'
 }
 
-const { title, description } = Astro.props
+const { title, description, heading, path, banner = 'inner' } = Astro.props
 ---
 
 <!doctype html>
@@ -23,24 +28,23 @@ const { title, description } = Astro.props
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <Seo {title} {description} />
     <Font
-      cssVariable="--font-open-sans"
-      preload={[{ weight: 400 }, { weight: 600 }, { weight: 700 }]}
+      cssVariable="--font-pt-sans"
+      preload={[{ weight: 400 }, { weight: 700 }]}
     />
   </head>
   <body>
-    <Header />
-    <main>
+    <Sprite />
+    <Header active={path} />
+    <main class="page-main">
+      <h1 class="visually-hidden">{heading}</h1>
+      <Banner variant={banner} />
       <slot />
     </main>
     <Footer />
     <script>
       import { initReveal } from '@/scripts/reveal'
-      import { initParallax } from '@/scripts/parallax'
-      import { initRequestForm } from '@/scripts/request-form'
 
       initReveal()
-      initParallax()
-      initRequestForm()
     </script>
   </body>
 </html>

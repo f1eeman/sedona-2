@@ -1,40 +1,95 @@
 ---
-const LINKS = [
-  { href: '#sample', label: 'Раздел' },
-  { href: '#request', label: 'Заявка' },
-  { href: '#contacts', label: 'Контакты' },
-]
+import { NAV_LINKS } from '@/data/nav'
+
+interface Props {
+  active: string
+}
+
+const { active } = Astro.props
 ---
 
-<header class="header">
-  <div class="container row">
-    <a class="logo" href="/">Лендинг</a>
-
-    <details class="menu" data-menu>
+<header class="page-header">
+  <nav class="page-header__main-nav main-nav">
+    <details class="main-nav__menu" data-menu>
       <summary
-        class="menu-toggle"
+        class="main-nav__toggle"
         data-menu-toggle
         data-menu-label-open="Открыть меню"
         data-menu-label-close="Закрыть меню"
       >
         <span class="visually-hidden" data-menu-label>Открыть меню</span>
-        <span class="burger" aria-hidden="true"></span>
+        <span class="main-nav__burger" aria-hidden="true">
+          <span class="main-nav__line"></span>
+          <span class="main-nav__line"></span>
+          <span class="main-nav__line"></span>
+        </span>
       </summary>
-      <nav class="nav" aria-label="Разделы страницы">
-        <ul class="nav-list">
-          {
-            LINKS.map((link) => (
-              <li>
-                <a class="nav-link" href={link.href}>
+      <ul class="main-nav__site-list site-list">
+        {
+          NAV_LINKS.map((link) => (
+            <li
+              class:list={[
+                'site-list__item',
+                link.href === active && 'site-list__item--active',
+              ]}
+            >
+              {link.href === active ? (
+                <span class="site-list__link">{link.label}</span>
+              ) : (
+                <a class="site-list__link" href={link.href}>
                   {link.label}
                 </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+              )}
+            </li>
+          ))
+        }
+      </ul>
     </details>
-  </div>
+
+    {
+      active === '/' ? (
+        <span class="main-nav__logo">
+          <picture>
+            <source
+              media="(min-width: 1200px)"
+              srcset="/img/logo-sedona-desktop.svg"
+            />
+            <source
+              media="(min-width: 768px)"
+              srcset="/img/logo-sedona-tablet.svg"
+            />
+            <img
+              class="main-nav__logo-image"
+              src="/img/logo-sedona-mobile.svg"
+              width="102"
+              height="83"
+              alt="Sedona"
+            />
+          </picture>
+        </span>
+      ) : (
+        <a class="main-nav__logo" href="/">
+          <picture>
+            <source
+              media="(min-width: 1200px)"
+              srcset="/img/logo-sedona-desktop.svg"
+            />
+            <source
+              media="(min-width: 768px)"
+              srcset="/img/logo-sedona-tablet.svg"
+            />
+            <img
+              class="main-nav__logo-image"
+              src="/img/logo-sedona-mobile.svg"
+              width="102"
+              height="83"
+              alt="Sedona"
+            />
+          </picture>
+        </a>
+      )
+    }
+  </nav>
 </header>
 
 <script>
@@ -44,262 +99,251 @@ const LINKS = [
 </script>
 
 <style>
-  .header {
+  .page-header__main-nav {
+    margin-inline: auto;
+  }
+
+  .main-nav {
     position: relative;
     z-index: 1;
-    padding-block: 16px;
+    min-height: 55px;
+    color: var(--color-text);
   }
 
-  .row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    min-block-size: 36px;
-  }
-
-  .logo {
-    flex: none;
-    margin-inline-end: auto;
-    font-weight: 700;
-    font-size: 20px;
-    line-height: 36px;
-  }
-
-  .nav-link {
+  .main-nav__logo {
+    position: absolute;
+    top: 0;
+    left: 50%;
     display: block;
-    font-size: 14px;
-    white-space: nowrap;
-    user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
-    transition: color 180ms cubic-bezier(0.2, 0.8, 0.25, 1);
+    width: 102px;
+    height: 83px;
+    margin-left: -51px;
+    transition: opacity var(--duration-quick) var(--ease-out);
+    view-transition-name: sedona-logo;
   }
 
-  @media (width < 1024px) {
-    .menu {
-      flex: none;
+  a.main-nav__logo:focus-visible {
+    outline: 3px solid var(--color-text-strong);
+    outline-offset: 3px;
+  }
+
+  .main-nav__logo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  a.main-nav__logo:hover,
+  a.main-nav__logo:focus {
+    opacity: 0.6;
+  }
+
+  a.main-nav__logo:active {
+    opacity: 0.3;
+  }
+
+  .main-nav__logo-image {
+    width: 102px;
+    height: 83px;
+  }
+
+  .main-nav__toggle {
+    position: absolute;
+    top: 7px;
+    right: 12px;
+    z-index: 10;
+    display: block;
+    width: 40px;
+    height: 40px;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .main-nav__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .main-nav__burger {
+    position: absolute;
+    top: 10px;
+    left: 9px;
+    display: block;
+    width: 23px;
+    height: 20px;
+  }
+
+  .main-nav__line {
+    position: absolute;
+    left: 0;
+    width: 23px;
+    height: 4px;
+    background-color: var(--color-brand);
+    transition:
+      translate var(--duration-base) var(--ease-out),
+      rotate var(--duration-base) var(--ease-out),
+      scale var(--duration-base) var(--ease-out),
+      opacity var(--duration-quick) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out);
+  }
+
+  .main-nav__line:nth-child(1) {
+    top: 0;
+  }
+
+  .main-nav__line:nth-child(2) {
+    top: 8px;
+  }
+
+  .main-nav__line:nth-child(3) {
+    top: 16px;
+  }
+
+  .main-nav__menu[open] .main-nav__line {
+    background-color: var(--color-bg);
+  }
+
+  .main-nav__menu[open] .main-nav__line:nth-child(1) {
+    translate: 0 8px;
+    rotate: 45deg;
+    scale: 1.26 1;
+  }
+
+  .main-nav__menu[open] .main-nav__line:nth-child(2) {
+    opacity: 0;
+    scale: 0.2 1;
+  }
+
+  .main-nav__menu[open] .main-nav__line:nth-child(3) {
+    translate: 0 -8px;
+    rotate: -45deg;
+    scale: 1.26 1;
+  }
+
+  @media (width < 768px) {
+    .main-nav:has(.main-nav__menu[open]) {
+      padding-bottom: 55px;
     }
 
-    .menu-toggle {
-      position: relative;
-      display: grid;
-      place-content: center;
-      inline-size: 36px;
-      block-size: 36px;
-      border: 1px solid var(--color-border-chip);
-      border-radius: var(--radius-control);
-      background-color: var(--color-surface-chip);
-      list-style: none;
-      cursor: pointer;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      transition: background-color 180ms cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-
-    .menu-toggle::-webkit-details-marker {
-      display: none;
-    }
-
-    .menu-toggle::after {
-      content: '';
-      position: absolute;
-      inset: -4px;
-    }
-
-    .menu-toggle:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 3px;
-    }
-
-    .menu-toggle:active {
-      background-color: color-mix(
-        in srgb,
-        var(--color-surface-chip) 86%,
-        var(--color-text)
-      );
-      transition-duration: 90ms;
-    }
-
-    .burger,
-    .burger::before,
-    .burger::after {
-      inline-size: 20px;
-      block-size: 2px;
-      border-radius: 1px;
-      background-color: var(--color-text);
-      transition:
-        transform 180ms cubic-bezier(0.2, 0.8, 0.25, 1),
-        background-color 180ms cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-
-    .burger {
-      position: relative;
-    }
-
-    .burger::before,
-    .burger::after {
-      content: '';
-      position: absolute;
-      inset-inline-start: 0;
-    }
-
-    .burger::before {
-      inset-block-start: -6px;
-    }
-
-    .burger::after {
-      inset-block-start: 6px;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .menu-toggle:hover {
-        background-color: color-mix(
-          in srgb,
-          var(--color-surface-chip) 92%,
-          var(--color-text)
-        );
-      }
-
-      .menu[open] .menu-toggle:hover .burger {
-        background-color: transparent;
-      }
-    }
-
-    .menu[open] .burger {
-      background-color: transparent;
-    }
-
-    .menu[open] .burger::before {
-      transform: translateY(6px) rotate(45deg);
-    }
-
-    .menu[open] .burger::after {
-      transform: translateY(-6px) rotate(-45deg);
-    }
-
-    .menu::details-content {
-      transition: content-visibility 180ms allow-discrete;
-    }
-
-    .nav {
-      position: absolute;
-      inset-inline: 0;
-      inset-block-start: 100%;
-      z-index: 10;
-      block-size: 0;
-      border-end-end-radius: var(--radius-tab);
-      border-end-start-radius: var(--radius-tab);
-      background-color: var(--color-surface-inverse);
-      overflow: hidden;
-      transition: block-size 180ms cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-
-    .menu[open] .nav {
-      block-size: auto;
-    }
-
-    .nav-list {
-      max-block-size: calc(100dvh - var(--header-height));
-      padding: 8px 16px 16px;
-      overflow-y: auto;
-    }
-
-    .nav-link {
-      padding-block: 10px;
-      padding-inline: 8px;
-      border-radius: var(--radius-control);
-      color: var(--color-text-inverse-muted);
-      transition-property: color, background-color;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .nav-link:hover {
-        color: var(--color-text-inverse);
-      }
-    }
-
-    .nav-link:active {
-      background-color: var(--color-surface-glass);
-      color: var(--color-text-inverse);
+    .main-nav:has(.main-nav__menu[open]) .main-nav__logo {
+      top: auto;
+      bottom: -27px;
     }
   }
 
-  @media (width >= 1024px) {
-    .menu {
-      flex: 1;
+  @media (width >= 768px) {
+    .main-nav {
+      max-width: var(--layout-width);
     }
 
-    .menu-toggle {
+    .main-nav__toggle {
       display: none;
     }
 
-    .menu::details-content {
+    .main-nav__menu::details-content {
       block-size: auto;
       content-visibility: visible;
     }
+  }
 
-    .nav-list {
-      display: flex;
-      gap: 32px;
-      justify-content: flex-end;
+  @media (width >= 1200px) {
+    .main-nav__logo,
+    .main-nav__logo-image {
+      width: 187px;
+      height: 96px;
     }
 
-    .nav-link {
-      position: relative;
-      color: var(--color-text-muted);
-      transition-property: color, transform;
-    }
-
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      inset-block-end: -4px;
-      inset-inline: 0;
-      block-size: 2px;
-      border-radius: 1px;
-      background-color: currentcolor;
-      transform: scaleX(0);
-      transform-origin: right;
-      transition: transform 180ms cubic-bezier(0.2, 0.8, 0.25, 1);
-    }
-
-    .nav-link:focus-visible {
-      outline: 2px solid var(--color-accent);
-      outline-offset: 4px;
-    }
-
-    .nav-link:active {
-      color: var(--color-text);
-      transform: scale(0.97);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .nav-link:hover {
-        color: var(--color-text);
-      }
-
-      .nav-link:hover::after {
-        transform: scaleX(1);
-        transform-origin: left;
-      }
+    .main-nav__logo {
+      margin-left: -93px;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .nav,
-    .nav-link,
-    .nav-link::after,
-    .menu-toggle,
-    .burger,
-    .burger::before,
-    .burger::after,
-    .menu::details-content {
-      transition: none;
+  .site-list__link {
+    display: block;
+    transition:
+      color var(--duration-quick) var(--ease-out),
+      background-color var(--duration-quick) var(--ease-out),
+      border-top-color var(--duration-quick) var(--ease-out);
+  }
+
+  a.site-list__link:focus-visible {
+    outline: 3px solid currentcolor;
+    outline-offset: -4px;
+  }
+
+  @media (width < 768px) {
+    .site-list__item:last-child .site-list__link {
+      border-bottom: none;
+      box-shadow: inset 0 -10px 10px -12px #000;
     }
 
-    .nav-link:active {
-      transform: none;
+    .site-list__link {
+      padding: 7px 15px;
+      font-weight: 700;
+      font-size: 18px;
+      line-height: 40px;
+      color: var(--color-text-inverse);
+      text-align: center;
+      background-color: var(--color-brand);
+      border-top: 1px solid var(--color-divider-nav-top);
+      border-bottom: 1px solid var(--color-divider-nav-bottom);
+    }
+
+    a.site-list__link:hover,
+    a.site-list__link:focus {
+      background-color: var(--color-brand-hover);
+      border-top-color: transparent;
+    }
+
+    a.site-list__link:active {
+      color: var(--color-text-inverse-faded);
+      background-color: var(--color-brand-active);
+      border-top-color: transparent;
+    }
+  }
+
+  @media (width >= 768px) {
+    .site-list {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .site-list__item {
+      width: 20%;
+      min-height: 56px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .site-list__item:nth-child(2) {
+      margin-right: 153px;
+    }
+
+    .site-list__item:nth-child(3) {
+      margin-left: auto;
+    }
+
+    .site-list__link {
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 26px;
+      color: var(--color-text-strong);
+    }
+
+    a.site-list__link:hover,
+    a.site-list__link:focus {
+      color: var(--color-brand);
+    }
+
+    a.site-list__link:active {
+      color: var(--color-text-strong-faded);
+    }
+  }
+
+  @media (width >= 1200px) {
+    .site-list__item:nth-child(2) {
+      margin-right: 240px;
     }
   }
 </style>

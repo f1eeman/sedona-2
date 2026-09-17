@@ -52,3 +52,4 @@ screen-tests/report.json
 screen-tests/report-expected
 screen-tests/report-actual
 screen-tests/report-diff
+.shots

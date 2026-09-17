@@ -1,0 +1,519 @@
+---
+import ResponsiveImage from '@/components/responsive-image.astro'
+import {
+  FEATURES_COMFORT,
+  FEATURES_FRINGE,
+  FEATURES_PICTURES,
+} from '@/data/features'
+---
+
+<section class="page-main__features features">
+  <h2 class="visually-hidden">Список преимуществ</h2>
+
+  <div class="features__box-header">
+    <p class="features__slogan main-style-title">
+      Седона &ndash; небольшой городок в Аризоне, заслуживающий большего!
+    </p>
+    <p class="features__text">
+      Рассмотрим 5 причин, по которым Седона круче, чем гранд каньон!
+    </p>
+  </div>
+
+  <ol class="features__list">
+    {
+      FEATURES_PICTURES.map((feature) => (
+        <li
+          class:list={[
+            'features__item',
+            'features__item--picture',
+            `features__item--${feature.modifier}`,
+          ]}
+        >
+          <div
+            class:list={[
+              'features__wrap',
+              `features__wrap--${feature.modifier}`,
+            ]}
+          >
+            <h3
+              class="features__subtitle features__subtitle--attractions main-style-title"
+              data-reveal
+            >
+              {feature.title}
+            </h3>
+            <span class="features__number" data-reveal>
+              {feature.number}
+            </span>
+            <p class="features__info features__info--attractions" data-reveal>
+              {feature.text}
+            </p>
+          </div>
+          <div class="features__box-image">
+            <ResponsiveImage name={feature.image} alt={feature.imageAlt} />
+          </div>
+        </li>
+      ))
+    }
+
+    {
+      FEATURES_FRINGE.map((feature, index) => (
+        <li class="features__item features__item--fringe features__item--bg-gray">
+          <div
+            class:list={[
+              'features__wrapper',
+              index === FEATURES_FRINGE.length - 1 &&
+                'features__wrapper--no-border',
+            ]}
+          >
+            <h3
+              class="features__subtitle features__subtitle--fringe main-style-title"
+              data-reveal
+            >
+              {feature.title}
+            </h3>
+            <span class="features__number features__number--fringe" data-reveal>
+              {feature.number}
+            </span>
+            <p
+              class:list={[
+                'features__info',
+                'features__info--fringe',
+                `features__info--${feature.width}`,
+              ]}
+              data-reveal
+            >
+              {feature.text}
+            </p>
+          </div>
+        </li>
+      ))
+    }
+
+    <li class="features__item features__item--sublist">
+      <ul class="features__sublist">
+        {
+          FEATURES_COMFORT.map((feature) => (
+            <li
+              class:list={[
+                'features__point',
+                'features__point--icon',
+                `features__point--${feature.icon}`,
+              ]}
+              data-reveal="scale"
+            >
+              <h3 class="features__subtitle features__subtitle--comfort main-style-title">
+                {feature.title}
+              </h3>
+              <p
+                class:list={[
+                  'features__info',
+                  'features__info--comfort',
+                  `features__info--${feature.icon}`,
+                ]}
+              >
+                {feature.text}
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </li>
+  </ol>
+</section>
+
+<style>
+  .features__box-header {
+    padding: 40px 20px 20px;
+  }
+
+  .features__slogan {
+    width: 260px;
+    margin-inline: auto;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+
+  .features__text {
+    width: 280px;
+    margin-inline: auto;
+    font-size: 14px;
+    line-height: 26px;
+    text-align: center;
+  }
+
+  .features__list {
+    display: flex;
+    flex-flow: column;
+  }
+
+  .features__item--city {
+    order: -2;
+  }
+
+  .features__item--sublist {
+    padding-block: 35px 37px;
+    order: -1;
+  }
+
+  .features__point {
+    width: 320px;
+    margin-inline: auto;
+    margin-bottom: 28px;
+    padding-inline: 20px;
+  }
+
+  .features__point:last-child {
+    margin-bottom: 0;
+  }
+
+  .features__item--fringe {
+    padding-inline: 20px;
+  }
+
+  .features__item--bg-gray {
+    background-color: var(--color-surface-shade);
+  }
+
+  .features__point--icon {
+    position: relative;
+    padding-left: 70px;
+  }
+
+  .features__point--icon::before {
+    content: '';
+    position: absolute;
+    display: block;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: contain;
+  }
+
+  .features__point--hotel::before {
+    top: -9px;
+    left: 22px;
+    width: 37px;
+    height: 36px;
+    background-image: url('/img/icon-house.svg');
+  }
+
+  .features__point--gift::before {
+    top: -12px;
+    left: 24px;
+    width: 32px;
+    height: 38px;
+    background-image: url('/img/icon-gift.svg');
+  }
+
+  .features__point--food::before {
+    top: -4px;
+    left: 20px;
+    width: 39px;
+    height: 34px;
+    background-image: url('/img/icon-burger.svg');
+  }
+
+  .features__subtitle {
+    margin-bottom: 8px;
+    padding-inline: 20px;
+    text-align: center;
+  }
+
+  .features__subtitle--comfort {
+    width: 160px;
+    margin-bottom: 14px;
+    padding: 0;
+    text-align: left;
+  }
+
+  .features__wrap .features__subtitle--attractions {
+    width: 320px;
+    margin-inline: auto;
+    color: var(--color-text-inverse);
+  }
+
+  .features__subtitle--fringe {
+    width: 265px;
+    margin-inline: auto;
+    padding-inline: 0;
+  }
+
+  .features__number {
+    display: block;
+    width: 110px;
+    min-height: 25px;
+    margin-inline: auto;
+    margin-bottom: 12px;
+    padding-inline: 20px;
+    text-align: center;
+  }
+
+  .features__info {
+    width: 305px;
+    margin-inline: auto;
+    padding-inline: 20px;
+    text-align: center;
+  }
+
+  .features__info--comfort {
+    width: 213px;
+    margin-inline: 0;
+    padding: 0;
+    text-align: left;
+  }
+
+  .features__info--fringe {
+    width: 255px;
+    padding-inline: 0;
+  }
+
+  .features__wrap {
+    min-height: 215px;
+    padding-top: 62px;
+    color: var(--color-text-inverse);
+    background-color: var(--color-brand);
+  }
+
+  .features__wrap--city {
+    background-image: url('/img/bg-triangle.svg');
+    background-repeat: no-repeat;
+    background-position: 50% -16px;
+    background-size: contain;
+  }
+
+  @media (width >= 500px) {
+    .features__wrap--city {
+      background-position: 50% -36px;
+    }
+  }
+
+  @media (width >= 690px) {
+    .features__wrap--city {
+      background-position: 50% -46px;
+    }
+  }
+
+  .features__wrap--bridge {
+    min-height: 190px;
+    padding-top: 40px;
+  }
+
+  .features__box-image {
+    height: 260px;
+  }
+
+  .features__wrapper {
+    padding-block: 28px 26px;
+    border-bottom: 1px solid var(--color-divider-strong);
+  }
+
+  .features__wrapper--no-border {
+    border-bottom: none;
+  }
+
+  @media (width >= 768px) {
+    .features {
+      max-width: var(--layout-width);
+      margin-inline: auto;
+    }
+
+    .features__box-header {
+      padding-block: 51px 50px;
+    }
+
+    .features__slogan {
+      width: 456px;
+    }
+
+    .features__text {
+      width: 520px;
+    }
+
+    .features__list {
+      flex-flow: row wrap;
+    }
+
+    .features__item {
+      flex-grow: 1;
+    }
+
+    .features__item--picture {
+      display: flex;
+      width: 100%;
+    }
+
+    .features__item--fringe {
+      width: 256px;
+      flex-grow: 1;
+    }
+
+    .features__item--sublist {
+      padding-block: 0;
+    }
+
+    .features__sublist {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .features__point {
+      width: 256px;
+      min-height: 330px;
+      flex-grow: 1;
+      margin-bottom: 0;
+      padding: 160px 30px 0;
+      text-align: center;
+    }
+
+    .features__point--hotel {
+      order: -3;
+    }
+
+    .features__point--hotel::before {
+      top: 60px;
+      left: 50%;
+      width: 75px;
+      height: 72px;
+      margin-left: -37px;
+    }
+
+    .features__point--gift {
+      order: -1;
+    }
+
+    .features__point--gift::before {
+      top: 58px;
+      left: 50%;
+      width: 64px;
+      height: 75px;
+      margin-left: -32px;
+    }
+
+    .features__point--food {
+      order: -2;
+    }
+
+    .features__point--food::before {
+      top: 62px;
+      left: 50%;
+      width: 77px;
+      height: 68px;
+      margin-left: -38px;
+    }
+
+    .features__subtitle--fringe {
+      width: 130px;
+      margin-bottom: 9px;
+    }
+
+    .features__subtitle--comfort {
+      margin-inline: auto;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .features__wrap .features__subtitle--attractions {
+      width: 205px;
+      margin-bottom: 9px;
+    }
+
+    .features__number--fringe {
+      margin-bottom: 18px;
+    }
+
+    .features__info--fringe {
+      width: 165px;
+    }
+
+    .features__wrap {
+      width: 256px;
+      min-height: 256px;
+      flex-grow: 1;
+      padding-top: 45px;
+    }
+
+    .features__wrap--city {
+      background-image: none;
+    }
+
+    .features__wrapper {
+      padding-block: 45px 43px;
+      border-bottom: none;
+    }
+
+    .features__box-image {
+      width: 512px;
+      height: 256px;
+      flex-grow: 1;
+    }
+
+    .features__item--bridge .features__box-image {
+      order: -1;
+    }
+
+    .features__info--attractions {
+      width: 210px;
+    }
+
+    .features__info--comfort {
+      width: 165px;
+      margin-inline: auto;
+      text-align: center;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .features__box-header {
+      padding-top: 50px;
+    }
+
+    .features__wrap {
+      width: 400px;
+      padding-top: 51px;
+    }
+
+    .features__wrapper {
+      padding-bottom: 63px;
+    }
+
+    .features__box-image {
+      width: 800px;
+      overflow: hidden;
+
+      --image-height: 400px;
+      --image-offset: -72px;
+    }
+
+    .features__item--bridge .features__box-image {
+      --image-offset: -77px;
+    }
+
+    .features__info--attractions {
+      width: 320px;
+    }
+
+    .features__item--bridge .features__info--attractions {
+      width: 267px;
+    }
+
+    .features__info--hotel {
+      width: 260px;
+    }
+
+    .features__info--food {
+      width: 285px;
+    }
+
+    .features__info--gift {
+      width: 225px;
+    }
+
+    .features__info--small {
+      width: 290px;
+    }
+
+    .features__info--road,
+    .features__info--tourist {
+      width: 270px;
+    }
+  }
+</style>

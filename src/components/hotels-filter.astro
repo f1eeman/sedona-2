@@ -1,0 +1,416 @@
+---
+import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
+---
+
+<section class="hotels-filter">
+  <h2 class="visually-hidden">Подбор гостиницы</h2>
+
+  <form class="hotels-filter__form" data-hotels-filter>
+    <fieldset class="hotels-filter__group">
+      <legend class="hotels-filter__legend">Инфраструктура:</legend>
+      <ul class="hotels-filter__list">
+        {
+          HOTEL_FACILITIES.map((facility) => (
+            <li class="hotels-filter__item">
+              <input
+                class="hotels-filter__control visually-hidden"
+                id={`facility-${facility.value}`}
+                name="facility"
+                type="checkbox"
+                value={facility.value}
+              />
+              <label
+                class="hotels-filter__label"
+                for={`facility-${facility.value}`}
+              >
+                {facility.label}
+              </label>
+            </li>
+          ))
+        }
+      </ul>
+    </fieldset>
+
+    <fieldset class="hotels-filter__group">
+      <legend class="hotels-filter__legend">Тип жилья:</legend>
+      <ul class="hotels-filter__list">
+        {
+          HOTEL_KINDS.map((kind) => (
+            <li class="hotels-filter__item">
+              <input
+                class="hotels-filter__control visually-hidden"
+                id={`kind-${kind.value}`}
+                name="kind"
+                type="checkbox"
+                value={kind.value}
+                checked
+              />
+              <label class="hotels-filter__label" for={`kind-${kind.value}`}>
+                {kind.label}
+              </label>
+            </li>
+          ))
+        }
+      </ul>
+    </fieldset>
+
+    <fieldset class="hotels-filter__group hotels-filter__group--price">
+      <legend class="hotels-filter__legend">Стоимость в сутки (р):</legend>
+      <div class="hotels-filter__price">
+        <label class="hotels-filter__price-label" for="price-from">От</label>
+        <input
+          class="hotels-filter__price-field"
+          id="price-from"
+          name="price-from"
+          type="number"
+          inputmode="numeric"
+          min={PRICE_LIMITS.min}
+          max={PRICE_LIMITS.max}
+          step="100"
+          value={PRICE_LIMITS.min}
+          data-price-from
+        />
+        <label class="hotels-filter__price-label" for="price-to">До</label>
+        <input
+          class="hotels-filter__price-field"
+          id="price-to"
+          name="price-to"
+          type="number"
+          inputmode="numeric"
+          min={PRICE_LIMITS.min}
+          max={PRICE_LIMITS.max}
+          step="100"
+          value={PRICE_LIMITS.max}
+          data-price-to
+        />
+      </div>
+      <div class="hotels-filter__range" data-price-range>
+        <span class="hotels-filter__track" aria-hidden="true"></span>
+        <span class="hotels-filter__fill" aria-hidden="true"></span>
+        <input
+          class="hotels-filter__thumb"
+          type="range"
+          min={PRICE_LIMITS.min}
+          max={PRICE_LIMITS.max}
+          step="100"
+          value={PRICE_LIMITS.min}
+          aria-label="Цена от, рублей"
+          data-price-range-from
+        />
+        <input
+          class="hotels-filter__thumb"
+          type="range"
+          min={PRICE_LIMITS.min}
+          max={PRICE_LIMITS.max}
+          step="100"
+          value={PRICE_LIMITS.max}
+          aria-label="Цена до, рублей"
+          data-price-range-to
+        />
+      </div>
+    </fieldset>
+
+    <button class="hotels-filter__submit button" type="submit">Показать</button>
+  </form>
+</section>
+
+<style>
+  .hotels-filter {
+    padding: 30px 20px 35px;
+    color: var(--color-text-inverse);
+    background-color: var(--color-brand);
+    background-image: url('/img/hotels/filter-background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: multiply;
+  }
+
+  .hotels-filter__form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    max-width: var(--layout-width);
+    margin-inline: auto;
+  }
+
+  .hotels-filter__group {
+    border: none;
+  }
+
+  .hotels-filter__legend {
+    margin-bottom: 18px;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .hotels-filter__list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hotels-filter__item {
+    min-height: 30px;
+  }
+
+  .hotels-filter__label {
+    position: relative;
+    display: block;
+    padding-left: 40px;
+    font-size: 18px;
+    line-height: 26px;
+    text-transform: none;
+    cursor: pointer;
+  }
+
+  .hotels-filter__label::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 23px;
+    height: 23px;
+    background-color: var(--color-text-inverse);
+    border-radius: 3px;
+    transition: background-color var(--duration-quick) var(--ease-out);
+  }
+
+  .hotels-filter__label:hover::before {
+    background-color: var(--color-surface-dim);
+  }
+
+  .hotels-filter__label:active::before {
+    background-color: var(--color-surface-pressed);
+  }
+
+  .hotels-filter__label::after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 5px;
+    width: 14px;
+    height: 8px;
+    border: 3px solid var(--color-check);
+    border-top-style: none;
+    border-right-style: none;
+    transform: rotate(-45deg);
+    scale: 0;
+    transition: scale var(--duration-base) var(--ease-out-back);
+  }
+
+  .hotels-filter__control:checked + .hotels-filter__label::after {
+    scale: 1;
+  }
+
+  .hotels-filter__control:focus-visible + .hotels-filter__label::before {
+    outline: 2px solid var(--color-text-inverse);
+    outline-offset: 3px;
+  }
+
+  .hotels-filter__price {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .hotels-filter__price-label {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .hotels-filter__price-field {
+    appearance: textfield;
+    width: 100%;
+    min-height: 40px;
+    padding-inline: 12px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 26px;
+    color: var(--color-text-inverse);
+    background-color: transparent;
+    border: 2px solid var(--color-text-inverse);
+    border-radius: 4px;
+  }
+
+  .hotels-filter__price-field::-webkit-outer-spin-button,
+  .hotels-filter__price-field::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  .hotels-filter__price-field:focus-visible {
+    outline: 2px solid var(--color-text-inverse);
+    outline-offset: 2px;
+  }
+
+  .hotels-filter__range {
+    position: relative;
+    height: 44px;
+    margin-top: 10px;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .hotels-filter__track,
+  .hotels-filter__fill {
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    margin-top: -1px;
+  }
+
+  .hotels-filter__track {
+    inset-inline: 10px;
+    background-color: rgb(255 255 255 / 30%);
+  }
+
+  .hotels-filter__fill {
+    left: calc(var(--from-pct, 0) * (100% - 20px) / 100 + 10px);
+    right: calc(100% - (var(--to-pct, 100) * (100% - 20px) / 100 + 10px));
+    background-color: var(--color-text-inverse);
+  }
+
+  .hotels-filter__thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: transparent;
+    appearance: none;
+    pointer-events: none;
+  }
+
+  .hotels-filter__thumb::-webkit-slider-runnable-track {
+    height: 100%;
+    background-color: transparent;
+  }
+
+  .hotels-filter__thumb::-moz-range-track {
+    height: 100%;
+    background-color: transparent;
+  }
+
+  .hotels-filter__thumb::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    margin-top: 12px;
+    background-color: var(--color-text-inverse);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+    appearance: none;
+    cursor: grab;
+    pointer-events: auto;
+    transition: scale var(--duration-quick) var(--ease-out);
+  }
+
+  .hotels-filter__thumb::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-text-inverse);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 30%);
+    cursor: grab;
+    pointer-events: auto;
+    transition: scale var(--duration-quick) var(--ease-out);
+  }
+
+  .hotels-filter__thumb:hover::-webkit-slider-thumb {
+    scale: 1.12;
+  }
+
+  .hotels-filter__thumb:hover::-moz-range-thumb {
+    scale: 1.12;
+  }
+
+  .hotels-filter__thumb:active::-webkit-slider-thumb {
+    scale: 1.05;
+    cursor: grabbing;
+  }
+
+  .hotels-filter__thumb:active::-moz-range-thumb {
+    scale: 1.05;
+    cursor: grabbing;
+  }
+
+  .hotels-filter__thumb:focus-visible::-webkit-slider-thumb {
+    outline: 3px solid var(--color-text-inverse);
+    outline-offset: 3px;
+  }
+
+  .hotels-filter__thumb:focus-visible::-moz-range-thumb {
+    outline: 3px solid var(--color-text-inverse);
+    outline-offset: 3px;
+  }
+
+  .hotels-filter__thumb:focus {
+    outline: none;
+  }
+
+  .hotels-filter__submit {
+    min-height: 50px;
+    padding-inline: 30px;
+    background-color: transparent;
+    border: 2px solid var(--color-text-inverse);
+    border-radius: 4px;
+  }
+
+  .hotels-filter__submit:hover,
+  .hotels-filter__submit:focus {
+    color: var(--color-text-strong);
+    background-color: var(--color-text-inverse);
+  }
+
+  .hotels-filter__submit:active {
+    color: var(--color-text-faded);
+    background-color: var(--color-text-inverse);
+    scale: 0.985;
+  }
+
+  @media (width >= 768px) {
+    .hotels-filter {
+      padding: 45px 60px 50px;
+    }
+
+    .hotels-filter__form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
+    .hotels-filter__group--price {
+      grid-column: 1 / -1;
+    }
+
+    .hotels-filter__submit {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: 324px;
+    }
+  }
+
+  @media (width >= 1200px) {
+    .hotels-filter {
+      padding: 55px 120px 60px;
+    }
+
+    .hotels-filter__form {
+      grid-template-columns: repeat(3, 1fr);
+      align-items: start;
+    }
+
+    .hotels-filter__group--price {
+      grid-column: auto;
+    }
+
+    .hotels-filter__submit {
+      grid-column: 1 / -1;
+      width: 480px;
+    }
+  }
+</style>

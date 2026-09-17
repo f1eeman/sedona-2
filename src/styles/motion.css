@@ -1,0 +1,186 @@
+@keyframes sedona-banner-cut {
+  from {
+    translate: 0 40%;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes sedona-banner-title {
+  from {
+    translate: 0 24px;
+    scale: 0.97;
+  }
+
+  to {
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes sedona-rise {
+  from {
+    translate: 0 28px;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes sedona-rise-soft {
+  from {
+    translate: 0 18px;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+@keyframes sedona-pop {
+  from {
+    scale: 0.86;
+    opacity: 0;
+  }
+
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes sedona-rule-left {
+  from {
+    scale: 0 1;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes sedona-rule-right {
+  from {
+    scale: 0 1;
+  }
+
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes sedona-like {
+  0% {
+    scale: 1;
+  }
+
+  40% {
+    scale: 1.32;
+  }
+
+  70% {
+    scale: 0.94;
+  }
+
+  100% {
+    scale: 1;
+  }
+}
+
+@keyframes sedona-modal-in {
+  from {
+    translate: 0 -24px;
+    scale: 0.96;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes sedona-modal-alarm {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  20% {
+    translate: -8px 0;
+  }
+
+  40% {
+    translate: 7px 0;
+  }
+
+  60% {
+    translate: -5px 0;
+  }
+
+  80% {
+    translate: 3px 0;
+  }
+}
+
+html[data-reveal] [data-reveal] {
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    translate var(--duration-slow) var(--ease-out);
+}
+
+html[data-reveal] [data-reveal]:not([data-revealed]) {
+  opacity: 0;
+  translate: 0 24px;
+}
+
+html[data-reveal] [data-reveal='fade']:not([data-revealed]) {
+  translate: none;
+}
+
+html[data-reveal] [data-reveal='scale'] {
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    scale var(--duration-slow) var(--ease-out-back);
+}
+
+html[data-reveal] [data-reveal='scale']:not([data-revealed]) {
+  scale: 0.88;
+  translate: none;
+}
+
+@media print {
+  html[data-reveal] [data-reveal]:not([data-revealed]) {
+    opacity: 1;
+    scale: 1;
+    translate: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: 0ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

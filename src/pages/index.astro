@@ -1,16 +1,18 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import Promo from '@/components/promo.astro'
-import Request from '@/components/request.astro'
-import Sample from '@/components/sample.astro'
-
-const title = 'Заголовок страницы — Название продукта'
-const description =
-  'Описание страницы для поиска и соцсетей: одно-два предложения о продукте.'
+import Features from '@/components/features.astro'
+import Appointment from '@/components/appointment.astro'
+import Map from '@/components/map.astro'
 ---
 
-<Layout {title} {description}>
-  <Promo />
-  <Sample />
-  <Request />
+<Layout
+  title="Седона — сервис бронирования отелей"
+  description="Седона — небольшой городок в Аризоне, заслуживающий большего. Пять причин приехать и лучшие предложения гостиниц."
+  heading="Сервис интернет-бронирования отелей в Седоне"
+  path="/"
+  banner="index"
+>
+  <Features />
+  <Appointment />
+  <Map />
 </Layout>
