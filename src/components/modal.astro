@@ -20,7 +20,7 @@ const titleId = `modal-${name}-title`
   hidden
 >
   <h2 class={`modal-${name}__title`} id={titleId}>{title}</h2>
-  <p class={`modal-${name}__text`} set:html={text} />
+  <p class={`modal-${name}__text`}>{text}</p>
   <button class={`modal-${name}__button button`} type="button" data-modal-close>
     {action}
   </button>
