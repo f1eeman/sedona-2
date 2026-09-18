@@ -10,9 +10,11 @@ const PAGES = [
   { path: '/kk/', name: 'kk-index' },
   { path: '/kk/hotels/', name: 'kk-hotels' },
   { path: '/kk/form/', name: 'kk-form' },
+  { path: '/kk/photo/', name: 'kk-photo' },
   { path: '/en/', name: 'en-index' },
   { path: '/en/hotels/', name: 'en-hotels' },
   { path: '/en/form/', name: 'en-form' },
+  { path: '/en/photo/', name: 'en-photo' },
 ]
 
 const SIZES = [
