@@ -1,11 +1,17 @@
 ---
-import { NAV_LINKS } from '@/data/nav'
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { localeOf, useTranslations } from '@/i18n'
+import { NAV_HREF, NAV_KEYS } from '@/data/nav'
 
 interface Props {
   active: string
 }
 
 const { active } = Astro.props
+
+const locale = localeOf(Astro.currentLocale)
+const t = useTranslations(Astro.currentLocale)
+const homeHref = getRelativeLocaleUrl(locale, NAV_HREF.index)
 ---
 
 <header class="page-header">
@@ -14,10 +20,10 @@ const { active } = Astro.props
       <summary
         class="main-nav__toggle"
         data-menu-toggle
-        data-menu-label-open="Открыть меню"
-        data-menu-label-close="Закрыть меню"
+        data-menu-label-open={t.menu.open}
+        data-menu-label-close={t.menu.close}
       >
-        <span class="visually-hidden" data-menu-label>Открыть меню</span>
+        <span class="visually-hidden" data-menu-label>{t.menu.open}</span>
         <span class="main-nav__burger" aria-hidden="true">
           <span class="main-nav__line"></span>
           <span class="main-nav__line"></span>
@@ -26,18 +32,21 @@ const { active } = Astro.props
       </summary>
       <ul class="main-nav__site-list site-list">
         {
-          NAV_LINKS.map((link) => (
+          NAV_KEYS.map((key) => (
             <li
               class:list={[
                 'site-list__item',
-                link.href === active && 'site-list__item--active',
+                NAV_HREF[key] === active && 'site-list__item--active',
               ]}
             >
-              {link.href === active ? (
-                <span class="site-list__link">{link.label}</span>
+              {NAV_HREF[key] === active ? (
+                <span class="site-list__link">{t.nav[key]}</span>
               ) : (
-                <a class="site-list__link" href={link.href}>
-                  {link.label}
+                <a
+                  class="site-list__link"
+                  href={getRelativeLocaleUrl(locale, NAV_HREF[key])}
+                >
+                  {t.nav[key]}
                 </a>
               )}
             </li>
@@ -68,7 +77,7 @@ const { active } = Astro.props
           </picture>
         </span>
       ) : (
-        <a class="main-nav__logo" href="/">
+        <a class="main-nav__logo" href={homeHref}>
           <picture>
             <source
               media="(min-width: 1200px)"

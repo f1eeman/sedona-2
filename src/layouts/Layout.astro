@@ -5,28 +5,32 @@ import Sprite from '@/components/sprite.astro'
 import Header from '@/components/header.astro'
 import Banner from '@/components/banner.astro'
 import Footer from '@/components/footer.astro'
+import { localeOf, useTranslations } from '@/i18n'
+import { NAV_HREF, type NavKey } from '@/data/nav'
 
 import '@/styles/index.css'
 
 interface Props {
-  title: string
-  description: string
-  heading: string
-  path: string
+  page: NavKey
   banner?: 'index' | 'inner'
 }
 
-const { title, description, heading, path, banner = 'inner' } = Astro.props
+const { page, banner = 'inner' } = Astro.props
+
+const locale = localeOf(Astro.currentLocale)
+const t = useTranslations(Astro.currentLocale)
+const meta = t.pages[page]
+const path = NAV_HREF[page]
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <Seo {title} {description} />
+    <Seo title={meta.title} description={meta.description} {path} />
     <Font
       cssVariable="--font-pt-sans"
       preload={[{ weight: 400 }, { weight: 700 }]}
@@ -36,7 +40,7 @@ const { title, description, heading, path, banner = 'inner' } = Astro.props
     <Sprite />
     <Header active={path} />
     <main class="page-main">
-      <h1 class="visually-hidden">{heading}</h1>
+      <h1 class="visually-hidden">{meta.heading}</h1>
       <Banner variant={banner} />
       <slot />
     </main>

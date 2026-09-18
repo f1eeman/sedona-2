@@ -2,14 +2,12 @@
 import Layout from '@/layouts/Layout.astro'
 import ReviewForm from '@/components/review-form.astro'
 import Modal from '@/components/modal.astro'
+import { localePaths } from '@/i18n'
+
+export const getStaticPaths = localePaths
 ---
 
-<Layout
-  title="Форма отзыва — Седона"
-  description="Оставьте отзыв об отелях Седоны и посещённых достопримечательностях."
-  heading="Форма отзыва"
-  path="/form/"
->
+<Layout page="form">
   <ReviewForm />
 
   <Modal

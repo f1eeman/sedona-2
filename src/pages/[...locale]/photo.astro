@@ -2,16 +2,16 @@
 import Layout from '@/layouts/Layout.astro'
 import PhotoGallery from '@/components/photo-gallery.astro'
 import VideoPlayer from '@/components/video-player.astro'
+import { localePaths, useTranslations } from '@/i18n'
+
+export const getStaticPaths = localePaths
+
+const t = useTranslations(Astro.currentLocale)
 ---
 
-<Layout
-  title="Фото и видео — Седона"
-  description="Фотографии и видеопрезентация Седоны: закаты, кактусы, дороги и дерзкий мост."
-  heading="Достопримечательности Седоны"
-  path="/photo/"
->
+<Layout page="photo">
   <section class="page-main__media media">
-    <h2 class="media__title">Фото и видео</h2>
+    <h2 class="media__title">{t.pages.photo.mediaTitle}</h2>
     <PhotoGallery />
     <VideoPlayer />
   </section>

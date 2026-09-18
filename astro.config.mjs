@@ -3,7 +3,19 @@ import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
   site: 'https://example.invalid',
-  integrations: [sitemap()],
+  i18n: {
+    defaultLocale: 'ru',
+    locales: ['ru', 'kk', 'en'],
+    routing: { prefixDefaultLocale: false },
+  },
+  integrations: [
+    sitemap({
+      i18n: {
+        defaultLocale: 'ru',
+        locales: { ru: 'ru-RU', kk: 'kk-KZ', en: 'en-US' },
+      },
+    }),
+  ],
   fonts: [
     {
       provider: fontProviders.local(),

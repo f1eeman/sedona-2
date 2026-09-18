@@ -2,9 +2,10 @@
 interface Props {
   title: string
   description: string
+  path: string
 }
 
-const { title, description } = Astro.props
+const { title, description, path: _path } = Astro.props
 
 const site = Astro.site as URL
 const canonical = new URL(Astro.url.pathname, site)

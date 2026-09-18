@@ -1,11 +1,10 @@
-export interface NavLink {
-  href: string
-  label: string
-}
+export type NavKey = 'index' | 'photo' | 'form' | 'hotels'
 
-export const NAV_LINKS: NavLink[] = [
-  { href: '/', label: 'Главная' },
-  { href: '/photo/', label: 'Фото и видео' },
-  { href: '/form/', label: 'Форма отзыва' },
-  { href: '/hotels/', label: 'Гостиницы' },
-]
+export const NAV_KEYS: NavKey[] = ['index', 'photo', 'form', 'hotels']
+
+export const NAV_HREF: Record<NavKey, string> = {
+  index: '/',
+  photo: '/photo/',
+  form: '/form/',
+  hotels: '/hotels/',
+}
