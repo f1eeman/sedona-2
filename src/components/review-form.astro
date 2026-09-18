@@ -1,68 +1,48 @@
 ---
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations(Astro.currentLocale)
+
 const IMPRESSIONS = [
-  { id: 'good', value: 'good', label: 'Скорее положительное', checked: true },
-  { id: 'bad', value: 'bad', label: 'Скорее отрицательное', checked: false },
-  {
-    id: 'unknown',
-    value: 'unknown',
-    label: 'Затрудняюсь ответить',
-    checked: false,
-  },
-]
+  { id: 'good', value: 'good', checked: true },
+  { id: 'bad', value: 'bad', checked: false },
+  { id: 'unknown', value: 'unknown', checked: false },
+] as const
 
 const ATTRACTIONS = [
-  { id: 'bridge', name: 'bridge', label: 'Дерзкий мост', checked: true },
-  { id: 'mountain', name: 'mountain', label: 'Гора-Колокол', checked: true },
-  { id: 'park', name: 'park', label: 'Слайд-парк', checked: true },
-  { id: 'rocks', name: 'rocks', label: 'Красные скалы', checked: false },
-]
+  { id: 'bridge', name: 'bridge', checked: true },
+  { id: 'mountain', name: 'mountain', checked: true },
+  { id: 'park', name: 'park', checked: true },
+  { id: 'rocks', name: 'rocks', checked: false },
+] as const
 
 const PERSON_FIELDS = [
-  {
-    id: 'user-name',
-    name: 'name',
-    label: 'Имя*:',
-    placeholder: 'Петр',
-    required: true,
-  },
-  {
-    id: 'user-surname',
-    name: 'surname',
-    label: 'Фамилия*:',
-    placeholder: 'Иванов',
-    required: true,
-  },
-  {
-    id: 'user-patronymic',
-    name: 'patronymic',
-    label: 'Отчество:',
-    placeholder: 'Александрович',
-    required: false,
-  },
-]
+  { id: 'user-name', name: 'name', required: true },
+  { id: 'user-surname', name: 'surname', required: true },
+  { id: 'user-patronymic', name: 'patronymic', required: false },
+] as const
 ---
 
 <section class="page-main__filters filters">
-  <h2 class="filters__title">Оставьте свой отзыв</h2>
+  <h2 class="filters__title">{t.reviewForm.heading}</h2>
 
   <div class="filters__box-intro">
     <p class="filters__intro">
-      Помогите нашим отелям стать лучше! оставьте отзыв о них, а также о
-      посещенных вами достопримечательностях
+      {t.reviewForm.intro}
     </p>
   </div>
 
   <form class="filters__filter-form filter-form" novalidate data-review-form>
     <fieldset class="filter-form__fieldset filter-form__fieldset--user-data">
       <h3 class="filter-form__title filter-form__title--user-data">
-        Представьтесь:
+        {t.reviewForm.personLegend}
       </h3>
       <ul class="filter-form__list filter-form__list--user-data">
         {
           PERSON_FIELDS.map((field) => (
             <li class="filter-form__item filter-form__item--user-data">
               <label class="filter-form__label" for={field.id}>
-                {field.label}
+                {t.reviewForm.person[field.id].label}
               </label>
               <input
                 class:list={[
@@ -74,7 +54,7 @@ const PERSON_FIELDS = [
                 id={field.id}
                 name={field.name}
                 type="text"
-                placeholder={field.placeholder}
+                placeholder={t.reviewForm.person[field.id].placeholder}
                 data-required={field.required ? '' : undefined}
               />
             </li>
@@ -86,7 +66,7 @@ const PERSON_FIELDS = [
     <fieldset class="filter-form__fieldset filter-form__fieldset--contacts">
       <div class="filter-form__box-title" data-reveal="fade">
         <h3 class="filter-form__title filter-form__title--contacts">
-          Контактная информация:
+          {t.reviewForm.contactsLegend}
         </h3>
       </div>
       <ul class="filter-form__list filter-form__list--contacts">
@@ -97,14 +77,15 @@ const PERSON_FIELDS = [
             class="filter-form__label filter-form__label--contacts filter-form__label--phone"
             for="user-phone"
           >
-            <span class="filter-form__word">Контактный</span> телефон*:
+            <span class="filter-form__word">{t.reviewForm.phoneWord}</span>{' '}
+            {t.reviewForm.phoneTail}
           </label>
           <input
             class="filter-form__control filter-form__control--contacts"
             id="user-phone"
             name="user-phone"
             type="tel"
-            placeholder="Введите телефон"
+            placeholder={t.reviewForm.phonePlaceholder}
             data-required
           />
           <span class="filter-form__icon">
@@ -125,14 +106,14 @@ const PERSON_FIELDS = [
             class="filter-form__label filter-form__label--contacts filter-form__label--email"
             for="user-email"
           >
-            Электронная почта*:
+            {t.reviewForm.emailLabel}
           </label>
           <input
             class="filter-form__control filter-form__control--contacts"
             id="user-email"
             name="user-email"
             type="email"
-            placeholder="Введите e-mail"
+            placeholder={t.reviewForm.emailPlaceholder}
             data-required
           />
           <span class="filter-form__icon">
@@ -151,7 +132,7 @@ const PERSON_FIELDS = [
 
     <fieldset class="filter-form__fieldset filter-form__fieldset--impression">
       <h3 class="filter-form__title filter-form__title--impression">
-        Ваше общее впечатление:
+        {t.reviewForm.impressionLegend}
       </h3>
       <ul class="filter-form__list filter-form__list--impression">
         {
@@ -169,7 +150,7 @@ const PERSON_FIELDS = [
                 class="filter-form__label filter-form__label--switch filter-form__label--radio"
                 for={item.id}
               >
-                {item.label}
+                {t.reviewForm.impressions[item.id]}
               </label>
             </li>
           ))
@@ -180,7 +161,7 @@ const PERSON_FIELDS = [
     <fieldset class="filter-form__fieldset filter-form__fieldset--attractions">
       <div class="filter-form__box-title" data-reveal="fade">
         <h3 class="filter-form__title filter-form__title--attractions">
-          Посещенные достопримечательности:
+          {t.reviewForm.attractionsLegend}
         </h3>
       </div>
       <ul class="filter-form__list filter-form__list--attractions">
@@ -198,7 +179,7 @@ const PERSON_FIELDS = [
                 class="filter-form__label filter-form__label--switch filter-form__label--checkbox"
                 for={item.id}
               >
-                {item.label}
+                {t.reviewForm.attractions[item.id]}
               </label>
             </li>
           ))
@@ -209,25 +190,25 @@ const PERSON_FIELDS = [
     <fieldset class="filter-form__fieldset filter-form__fieldset--emotions">
       <div class="filter-form__box-title" data-reveal="fade">
         <h3 class="filter-form__title filter-form__title--emotions">
-          Опишите свои эмоции:
+          {t.reviewForm.emotionsLegend}
         </h3>
       </div>
       <p class="filter-form__box-emotions">
         <label class="filter-form__label visually-hidden" for="additional-info">
-          Дополнительная информация:
+          {t.reviewForm.additionalLabel}
         </label>
         <textarea
           class="filter-form__control filter-form__control--textarea"
           name="additional-info"
           id="additional-info"
-          placeholder="Опишите подробно все свои восторги"></textarea>
+          placeholder={t.reviewForm.emotionsPlaceholder}></textarea>
       </p>
     </fieldset>
 
     <button class="filter-form__button button" type="submit">
-      Отправить отзыв
+      {t.reviewForm.submit}
     </button>
-    <p class="filter-form__info">* – Обязательные поля</p>
+    <p class="filter-form__info">{t.reviewForm.required}</p>
   </form>
 </section>
 

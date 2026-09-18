@@ -2,9 +2,11 @@
 import Layout from '@/layouts/Layout.astro'
 import ReviewForm from '@/components/review-form.astro'
 import Modal from '@/components/modal.astro'
-import { localePaths } from '@/i18n'
+import { localePaths, useTranslations } from '@/i18n'
 
 export const getStaticPaths = localePaths
+
+const t = useTranslations(Astro.currentLocale)
 ---
 
 <Layout page="form">
@@ -12,15 +14,15 @@ export const getStaticPaths = localePaths
 
   <Modal
     name="error"
-    title="Что-то пошло не так!"
-    text="Проверьте поля, выделенные красным, скорее всего вы забыли их заполнить"
-    action="Ок"
+    title={t.modal.error.title}
+    text={t.modal.error.text}
+    action={t.modal.error.action}
   />
   <Modal
     name="success"
-    title="Ваш отзыв отправлен!"
-    text="Спасибо за ваше участие, ваш отзыв уже поступил к нам.<br /> В ближайшее время мы опубликуем его на сайте."
-    action="Закрыть окно"
+    title={t.modal.success.title}
+    text={t.modal.success.text}
+    action={t.modal.success.action}
   />
 </Layout>
 
