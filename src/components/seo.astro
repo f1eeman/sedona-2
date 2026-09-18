@@ -1,16 +1,29 @@
 ---
+import { getAbsoluteLocaleUrl } from 'astro:i18n'
+import {
+  DEFAULT_LOCALE,
+  LOCALES,
+  localeOf,
+  localeTag,
+  ogLocale,
+  useTranslations,
+} from '@/i18n'
+
 interface Props {
   title: string
   description: string
   path: string
 }
 
-const { title, description, path: _path } = Astro.props
+const { title, description, path } = Astro.props
+
+const locale = localeOf(Astro.currentLocale)
+const t = useTranslations(Astro.currentLocale)
 
 const site = Astro.site as URL
 const canonical = new URL(Astro.url.pathname, site)
 
-const SITE_NAME = 'Седона'
+const SITE_NAME = t.site.name
 const OG_IMAGE = {
   path: '/img/bg-back-desktop@1x.jpg',
   width: 1200,
@@ -19,8 +32,8 @@ const OG_IMAGE = {
 const ogImage = new URL(OG_IMAGE.path, site)
 
 const ORGANIZATION = {
-  name: 'Седона',
-  legalName: 'Туристический портал города Седона',
+  name: t.site.name,
+  legalName: t.site.legalName,
   url: 'https://example.invalid/',
   telephone: '+70000000000',
   email: 'mail@example.invalid',
@@ -48,7 +61,7 @@ const schema = {
         telephone: ORGANIZATION.telephone,
         email: ORGANIZATION.email,
         areaServed: ORGANIZATION.country,
-        availableLanguage: 'ru',
+        availableLanguage: LOCALES.map(localeTag),
       },
       sameAs: [ORGANIZATION.url],
     },
@@ -58,7 +71,7 @@ const schema = {
       url: canonical.origin,
       name: SITE_NAME,
       description,
-      inLanguage: 'ru',
+      inLanguage: localeTag(locale),
       publisher: { '@id': `${canonical.origin}/#organization` },
     },
   ],
@@ -69,9 +82,24 @@ const schema = {
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical.href} />
 
+{
+  LOCALES.map((code) => (
+    <link
+      rel="alternate"
+      hreflang={code}
+      href={getAbsoluteLocaleUrl(code, path)}
+    />
+  ))
+}
+<link
+  rel="alternate"
+  hreflang="x-default"
+  href={getAbsoluteLocaleUrl(DEFAULT_LOCALE, path)}
+/>
+
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content={SITE_NAME} />
-<meta property="og:locale" content="ru_RU" />
+<meta property="og:locale" content={ogLocale(locale)} />
 <meta property="og:url" content={canonical.href} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />

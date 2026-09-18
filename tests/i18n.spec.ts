@@ -58,4 +58,38 @@ test.describe('локали', () => {
       page.getByRole('link', { name: 'English', exact: true }),
     ).toHaveAttribute('lang', 'en')
   })
+
+  test('hreflang перечисляет три языка и x-default', async ({ page }) => {
+    await page.goto('/kk/photo/')
+
+    const alternates = page.locator('link[rel="alternate"][hreflang]')
+
+    await expect(alternates).toHaveCount(4)
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="ru"]'),
+    ).toHaveAttribute('href', /\/photo\/$/)
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="kk"]'),
+    ).toHaveAttribute('href', /\/kk\/photo\/$/)
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="en"]'),
+    ).toHaveAttribute('href', /\/en\/photo\/$/)
+    await expect(
+      page.locator('link[rel="alternate"][hreflang="x-default"]'),
+    ).toHaveAttribute('href', /\/photo\/$/)
+  })
+
+  test('og:locale меняется вместе с языком', async ({ page }) => {
+    await page.goto('/en/')
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+      'content',
+      'en_US',
+    )
+
+    await page.goto('/kk/')
+    await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute(
+      'content',
+      'kk_KZ',
+    )
+  })
 })
