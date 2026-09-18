@@ -66,17 +66,17 @@ test.describe('локали', () => {
 
     await expect(alternates).toHaveCount(4)
     await expect(
-      page.locator('link[rel="alternate"][hreflang="ru"]'),
-    ).toHaveAttribute('href', /\/photo\/$/)
+      page.locator('link[rel="alternate"][hreflang="ru-RU"]'),
+    ).toHaveAttribute('href', /^https?:\/\/[^/]+\/photo\/$/)
     await expect(
-      page.locator('link[rel="alternate"][hreflang="kk"]'),
-    ).toHaveAttribute('href', /\/kk\/photo\/$/)
+      page.locator('link[rel="alternate"][hreflang="kk-KZ"]'),
+    ).toHaveAttribute('href', /^https?:\/\/[^/]+\/kk\/photo\/$/)
     await expect(
-      page.locator('link[rel="alternate"][hreflang="en"]'),
-    ).toHaveAttribute('href', /\/en\/photo\/$/)
+      page.locator('link[rel="alternate"][hreflang="en-US"]'),
+    ).toHaveAttribute('href', /^https?:\/\/[^/]+\/en\/photo\/$/)
     await expect(
       page.locator('link[rel="alternate"][hreflang="x-default"]'),
-    ).toHaveAttribute('href', /\/photo\/$/)
+    ).toHaveAttribute('href', /^https?:\/\/[^/]+\/photo\/$/)
   })
 
   test('og:locale меняется вместе с языком', async ({ page }) => {

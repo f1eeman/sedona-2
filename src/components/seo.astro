@@ -86,7 +86,7 @@ const schema = {
   LOCALES.map((code) => (
     <link
       rel="alternate"
-      hreflang={code}
+      hreflang={localeTag(code)}
       href={getAbsoluteLocaleUrl(code, path)}
     />
   ))
