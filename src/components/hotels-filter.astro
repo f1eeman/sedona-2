@@ -1,29 +1,29 @@
 ---
 import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations(Astro.currentLocale)
 ---
 
 <section class="hotels-filter">
-  <h2 class="visually-hidden">Подбор гостиницы</h2>
+  <h2 class="visually-hidden">{t.hotels.filterHeading}</h2>
 
   <form class="hotels-filter__form" data-hotels-filter>
     <fieldset class="hotels-filter__group">
-      <legend class="hotels-filter__legend">Инфраструктура:</legend>
+      <legend class="hotels-filter__legend">{t.hotels.facilitiesLegend}</legend>
       <ul class="hotels-filter__list">
         {
           HOTEL_FACILITIES.map((facility) => (
             <li class="hotels-filter__item">
               <input
                 class="hotels-filter__control visually-hidden"
-                id={`facility-${facility.value}`}
+                id={`facility-${facility}`}
                 name="facility"
                 type="checkbox"
-                value={facility.value}
+                value={facility}
               />
-              <label
-                class="hotels-filter__label"
-                for={`facility-${facility.value}`}
-              >
-                {facility.label}
+              <label class="hotels-filter__label" for={`facility-${facility}`}>
+                {t.hotels.facilities[facility]}
               </label>
             </li>
           ))
@@ -32,21 +32,21 @@ import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
     </fieldset>
 
     <fieldset class="hotels-filter__group">
-      <legend class="hotels-filter__legend">Тип жилья:</legend>
+      <legend class="hotels-filter__legend">{t.hotels.kindsLegend}</legend>
       <ul class="hotels-filter__list">
         {
           HOTEL_KINDS.map((kind) => (
             <li class="hotels-filter__item">
               <input
                 class="hotels-filter__control visually-hidden"
-                id={`kind-${kind.value}`}
+                id={`kind-${kind}`}
                 name="kind"
                 type="checkbox"
-                value={kind.value}
+                value={kind}
                 checked
               />
-              <label class="hotels-filter__label" for={`kind-${kind.value}`}>
-                {kind.label}
+              <label class="hotels-filter__label" for={`kind-${kind}`}>
+                {t.hotels.kinds[kind]}
               </label>
             </li>
           ))
@@ -55,9 +55,11 @@ import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
     </fieldset>
 
     <fieldset class="hotels-filter__group hotels-filter__group--price">
-      <legend class="hotels-filter__legend">Стоимость в сутки (р):</legend>
+      <legend class="hotels-filter__legend">{t.hotels.priceLegend}</legend>
       <div class="hotels-filter__price">
-        <label class="hotels-filter__price-label" for="price-from">От</label>
+        <label class="hotels-filter__price-label" for="price-from"
+          >{t.hotels.priceFrom}</label
+        >
         <input
           class="hotels-filter__price-field"
           id="price-from"
@@ -70,7 +72,9 @@ import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
           value={PRICE_LIMITS.min}
           data-price-from
         />
-        <label class="hotels-filter__price-label" for="price-to">До</label>
+        <label class="hotels-filter__price-label" for="price-to"
+          >{t.hotels.priceTo}</label
+        >
         <input
           class="hotels-filter__price-field"
           id="price-to"
@@ -94,7 +98,7 @@ import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
           max={PRICE_LIMITS.max}
           step="100"
           value={PRICE_LIMITS.min}
-          aria-label="Цена от, рублей"
+          aria-label={t.hotels.priceFromLabel}
           data-price-range-from
         />
         <input
@@ -104,13 +108,15 @@ import { HOTEL_FACILITIES, HOTEL_KINDS, PRICE_LIMITS } from '@/data/hotels'
           max={PRICE_LIMITS.max}
           step="100"
           value={PRICE_LIMITS.max}
-          aria-label="Цена до, рублей"
+          aria-label={t.hotels.priceToLabel}
           data-price-range-to
         />
       </div>
     </fieldset>
 
-    <button class="hotels-filter__submit button" type="submit">Показать</button>
+    <button class="hotels-filter__submit button" type="submit"
+      >{t.hotels.submit}</button
+    >
   </form>
 </section>
 

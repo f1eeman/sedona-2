@@ -26,9 +26,14 @@ const numberOf = (input: HTMLInputElement, fallback: number): number => {
 
 const compare = (a: HTMLElement, b: HTMLElement, key: SortKey): number => {
   if (key === 'kind') {
+    const tag =
+      document.querySelector<HTMLElement>('[data-hotels-list]')?.dataset[
+        'locale'
+      ]
+
     return (a.dataset['kindLabel'] ?? '').localeCompare(
       b.dataset['kindLabel'] ?? '',
-      'ru',
+      tag,
     )
   }
 

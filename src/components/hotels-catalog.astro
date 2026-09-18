@@ -1,25 +1,23 @@
 ---
-import { HOTELS, HOTEL_FACILITIES, HOTEL_KINDS } from '@/data/hotels'
-import type { HotelFacility, HotelKind } from '@/data/hotels'
+import { HOTELS } from '@/data/hotels'
+import { localeOf, localeTag, useTranslations } from '@/i18n'
 
-const kindLabel = (value: HotelKind): string =>
-  HOTEL_KINDS.find((kind) => kind.value === value)?.label ?? value
-
-const facilityLabel = (value: HotelFacility): string =>
-  HOTEL_FACILITIES.find((facility) => facility.value === value)?.label ?? value
+const locale = localeOf(Astro.currentLocale)
+const tag = localeTag(locale)
+const t = useTranslations(Astro.currentLocale)
 ---
 
 <section class="catalog">
-  <h2 class="visually-hidden">Список гостиниц</h2>
+  <h2 class="visually-hidden">{t.hotels.catalogHeading}</h2>
 
-  <ul class="catalog__list" data-hotels-list>
+  <ul class="catalog__list" data-hotels-list data-locale={tag}>
     {
       HOTELS.map((hotel) => (
         <li
           class="catalog__item hotel-card"
           data-hotel
           data-kind={hotel.kind}
-          data-kind-label={kindLabel(hotel.kind)}
+          data-kind-label={t.hotels.kinds[hotel.kind]}
           data-price={hotel.price}
           data-rating={hotel.rating}
           data-facilities={hotel.facilities.join(' ')}
@@ -31,23 +29,25 @@ const facilityLabel = (value: HotelFacility): string =>
             width="135"
             height="90"
             loading="lazy"
-            alt={`${kindLabel(hotel.kind)}: ${hotel.title}`}
+            alt={`${t.hotels.kinds[hotel.kind]}: ${hotel.title}`}
           />
 
           <div class="hotel-card__info">
             <h3 class="hotel-card__title">{hotel.title}</h3>
 
             <p class="hotel-card__meta">
-              <span class="hotel-card__kind">{kindLabel(hotel.kind)}</span>
-              <span class="hotel-card__price">от {hotel.price} р.</span>
+              <span class="hotel-card__kind">{t.hotels.kinds[hotel.kind]}</span>
+              <span class="hotel-card__price">
+                {t.hotels.pricePrefix} {hotel.price} {t.hotels.priceUnit}
+              </span>
             </p>
 
             <details class="hotel-card__details">
-              <summary class="hotel-card__summary">Подробнее</summary>
+              <summary class="hotel-card__summary">{t.hotels.more}</summary>
               <ul class="hotel-card__facilities">
                 {hotel.facilities.map((facility) => (
                   <li class="hotel-card__facility">
-                    {facilityLabel(facility)}
+                    {t.hotels.facilities[facility]}
                   </li>
                 ))}
               </ul>
@@ -55,7 +55,7 @@ const facilityLabel = (value: HotelFacility): string =>
           </div>
 
           <p class="hotel-card__rating">
-            Рейтинг: {hotel.rating.toLocaleString('ru-RU')}
+            {t.hotels.rating} {hotel.rating.toLocaleString(tag)}
           </p>
         </li>
       ))
@@ -63,7 +63,7 @@ const facilityLabel = (value: HotelFacility): string =>
   </ul>
 
   <p class="catalog__empty" data-hotels-empty hidden>
-    По заданным условиям ничего не нашлось. Снимите часть ограничений.
+    {t.hotels.empty}
   </p>
 </section>
 

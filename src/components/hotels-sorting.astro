@@ -1,30 +1,38 @@
 ---
-const SORTS = [
-  { value: 'price', label: 'По цене' },
-  { value: 'kind', label: 'По типу' },
-  { value: 'rating', label: 'По рейтингу' },
-]
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations(Astro.currentLocale)
+
+const SORT_KEYS = ['price', 'kind', 'rating'] as const
+const DIRECTIONS = ['asc', 'desc'] as const
 ---
 
 <section class="hotels-sorting">
   <h2 class="hotels-sorting__found" role="status">
-    Найдено: <span data-hotels-count>0</span>
+    {t.hotels.found}
+    <span data-hotels-count>0</span>
   </h2>
 
-  <div class="hotels-sorting__controls" role="group" aria-label="Сортировка">
-    <span class="hotels-sorting__title" id="sorting-title">Сортировка:</span>
+  <div
+    class="hotels-sorting__controls"
+    role="group"
+    aria-label={t.hotels.sortingGroup}
+  >
+    <span class="hotels-sorting__title" id="sorting-title"
+      >{t.hotels.sortingTitle}</span
+    >
 
     <ul class="hotels-sorting__list" aria-labelledby="sorting-title">
       {
-        SORTS.map((sort, index) => (
+        SORT_KEYS.map((key, index) => (
           <li class="hotels-sorting__item">
             <button
               class="hotels-sorting__button"
               type="button"
               aria-pressed={index === 0 ? 'true' : 'false'}
-              data-sort={sort.value}
+              data-sort={key}
             >
-              {sort.label}
+              {t.hotels.sorts[key]}
             </button>
           </li>
         ))
@@ -32,26 +40,25 @@ const SORTS = [
     </ul>
 
     <ul class="hotels-sorting__directions">
-      <li>
-        <button
-          class="hotels-sorting__direction hotels-sorting__direction--up"
-          type="button"
-          aria-pressed="true"
-          data-direction="asc"
-        >
-          <span class="visually-hidden">По возрастанию</span>
-        </button>
-      </li>
-      <li>
-        <button
-          class="hotels-sorting__direction hotels-sorting__direction--down"
-          type="button"
-          aria-pressed="false"
-          data-direction="desc"
-        >
-          <span class="visually-hidden">По убыванию</span>
-        </button>
-      </li>
+      {
+        DIRECTIONS.map((direction) => (
+          <li>
+            <button
+              class:list={[
+                'hotels-sorting__direction',
+                `hotels-sorting__direction--${direction === 'asc' ? 'up' : 'down'}`,
+              ]}
+              type="button"
+              aria-pressed={direction === 'asc' ? 'true' : 'false'}
+              data-direction={direction}
+            >
+              <span class="visually-hidden">
+                {t.hotels.directions[direction]}
+              </span>
+            </button>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </section>

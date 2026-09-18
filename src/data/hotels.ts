@@ -11,17 +11,9 @@ export interface Hotel {
   facilities: HotelFacility[]
 }
 
-export const HOTEL_KINDS: { value: HotelKind; label: string }[] = [
-  { value: 'hotel', label: 'Гостиница' },
-  { value: 'motel', label: 'Мотель' },
-  { value: 'apartments', label: 'Апартаменты' },
-]
+export const HOTEL_KINDS: HotelKind[] = ['hotel', 'motel', 'apartments']
 
-export const HOTEL_FACILITIES: { value: HotelFacility; label: string }[] = [
-  { value: 'pool', label: 'Бассейн' },
-  { value: 'parking', label: 'Парковка' },
-  { value: 'wifi', label: 'Wi-fi' },
-]
+export const HOTEL_FACILITIES: HotelFacility[] = ['pool', 'parking', 'wifi']
 
 export const HOTELS: Hotel[] = [
   {
