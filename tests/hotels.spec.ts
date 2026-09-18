@@ -18,6 +18,10 @@ test.describe('каталог гостиниц', () => {
     await expect(countOf(page)).toHaveText('3')
   })
 
+  test('счётчик отделён от подписи пробелом', async ({ page }) => {
+    await expect(page.getByRole('status')).toHaveText('Найдено: 3')
+  })
+
   test('по умолчанию сортировка по цене по возрастанию', async ({ page }) => {
     expect(await titlesOf(page)).toStrictEqual([
       'Villas at Poco Diablo',

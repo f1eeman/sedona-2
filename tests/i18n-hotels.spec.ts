@@ -6,14 +6,18 @@ test.describe('гостиницы на трёх языках', () => {
   }) => {
     await page.goto('/en/hotels/')
 
-    await expect(page.getByText('Found:')).toBeVisible()
+    await expect(page.getByRole('status')).toHaveText('Found: 3')
     await expect(page.getByRole('button', { name: 'By rating' })).toBeVisible()
     await expect(page.getByText('from 4000 RUB')).toBeVisible()
     await expect(page.getByText('Rating: 8.5')).toBeVisible()
+    await expect(page.locator('[data-hotels-list]')).toHaveAttribute(
+      'data-locale',
+      'en-US',
+    )
 
     await page.goto('/kk/hotels/')
 
-    await expect(page.getByText('Табылды:')).toBeVisible()
+    await expect(page.getByRole('status')).toHaveText('Табылды: 3')
     await expect(page.getByText('Рейтинг: 8,5')).toBeVisible()
   })
 
