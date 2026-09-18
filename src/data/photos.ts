@@ -1,6 +1,7 @@
+export type PhotoId = 'sunset' | 'cactus' | 'roads' | 'bridge'
+
 export interface Photo {
-  title: string
-  author: string
+  id: PhotoId
   likes: number
   image: string
   size: 'full' | 'small'
@@ -9,32 +10,28 @@ export interface Photo {
 
 export const PHOTOS: Photo[] = [
   {
-    title: 'Неродные просторы',
-    author: 'Антон',
+    id: 'sunset',
     likes: 1359,
     image: 'photo-sunset',
     size: 'full',
     shade: false,
   },
   {
-    title: 'Местная растительность',
-    author: 'Сергей',
+    id: 'cactus',
     likes: 365,
     image: 'photo-cactus',
     size: 'small',
     shade: false,
   },
   {
-    title: 'Дорога на север',
-    author: 'Петр',
+    id: 'roads',
     likes: 522,
     image: 'photo-roads',
     size: 'small',
     shade: true,
   },
   {
-    title: 'Дерзкий мост',
-    author: 'Матвей',
+    id: 'bridge',
     likes: 762,
     image: 'photo-bridge',
     size: 'small',

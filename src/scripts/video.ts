@@ -8,6 +8,10 @@ interface Player {
   sound: HTMLButtonElement
   soundLabel: HTMLElement
   fullscreen: HTMLButtonElement
+  labelPlay: string
+  labelPause: string
+  labelSoundOn: string
+  labelSoundOff: string
 }
 
 const SCALE = 1000
@@ -34,6 +38,11 @@ const playerOf = (): Player | null => {
     '[data-player-fullscreen]',
   )
 
+  const labelPlay = root.dataset['playerLabelPlay']
+  const labelPause = root.dataset['playerLabelPause']
+  const labelSoundOn = root.dataset['playerLabelSoundOn']
+  const labelSoundOff = root.dataset['playerLabelSoundOff']
+
   if (
     media === null ||
     toggle === null ||
@@ -42,7 +51,11 @@ const playerOf = (): Player | null => {
     progress === null ||
     sound === null ||
     soundLabel === null ||
-    fullscreen === null
+    fullscreen === null ||
+    labelPlay === undefined ||
+    labelPause === undefined ||
+    labelSoundOn === undefined ||
+    labelSoundOff === undefined
   ) {
     return null
   }
@@ -57,6 +70,10 @@ const playerOf = (): Player | null => {
     sound,
     soundLabel,
     fullscreen,
+    labelPlay,
+    labelPause,
+    labelSoundOn,
+    labelSoundOff,
   }
 }
 
@@ -76,17 +93,17 @@ export function initVideo(): void {
 
     player.root.dataset['state'] = playing ? 'playing' : 'paused'
     player.toggleLabel.textContent = playing
-      ? 'Остановить видео'
-      : 'Включить видео'
+      ? player.labelPause
+      : player.labelPlay
   }
 
   const syncSound = (): void => {
     if (player.media.muted) {
       player.root.dataset['muted'] = ''
-      player.soundLabel.textContent = 'Включить звук'
+      player.soundLabel.textContent = player.labelSoundOn
     } else {
       delete player.root.dataset['muted']
-      player.soundLabel.textContent = 'Выключить звук'
+      player.soundLabel.textContent = player.labelSoundOff
     }
   }
 

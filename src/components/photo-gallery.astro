@@ -1,15 +1,17 @@
 ---
 import ResponsiveImage from '@/components/responsive-image.astro'
 import { PHOTOS } from '@/data/photos'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations(Astro.currentLocale)
 ---
 
 <section class="photo">
-  <h3 class="visually-hidden">Фото</h3>
+  <h3 class="visually-hidden">{t.gallery.heading}</h3>
 
   <div class="photo__box-intro">
     <p class="photo__intro">
-      Не можете решиться на путешествие из-за курса? Фотографии помогут вам
-      забыть о политике и экономике.
+      {t.gallery.intro}
     </p>
   </div>
 
@@ -33,10 +35,14 @@ import { PHOTOS } from '@/data/photos'
               ]}
             >
               <div class="photo-card__box-header">
-                <h4 class="photo-card__title">{photo.title}</h4>
+                <h4 class="photo-card__title">
+                  {t.gallery.photos[photo.id].title}
+                </h4>
                 <p class="photo-card__text">
-                  <span class="photo-card__author">Автор фото:</span>{' '}
-                  <span class="photo-card__name">{photo.author}</span>
+                  <span class="photo-card__author">{t.gallery.author}</span>{' '}
+                  <span class="photo-card__name">
+                    {t.gallery.photos[photo.id].author}
+                  </span>
                 </p>
               </div>
               <div class="photo-card__box-likes" data-like-group>
@@ -46,7 +52,7 @@ import { PHOTOS } from '@/data/photos'
                   aria-pressed="false"
                   data-like
                 >
-                  <span class="visually-hidden">Поставить лайк</span>
+                  <span class="visually-hidden">{t.gallery.like}</span>
                   <svg
                     class="photo-card__icon-like"
                     width="24"
@@ -68,7 +74,10 @@ import { PHOTOS } from '@/data/photos'
               ]}
               href={`/img/${photo.image}-desktop@2x.jpg`}
             >
-              <ResponsiveImage name={photo.image} alt={photo.title} />
+              <ResponsiveImage
+                name={photo.image}
+                alt={t.gallery.photos[photo.id].title}
+              />
             </a>
           </div>
         </li>

@@ -1,15 +1,27 @@
+---
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations(Astro.currentLocale)
+---
+
 <section class="video">
-  <h3 class="visually-hidden">Видео</h3>
+  <h3 class="visually-hidden">{t.video.heading}</h3>
 
   <div class="video__box">
-    <p class="video__question">Все еще сомневаетесь?</p>
+    <p class="video__question">{t.video.question}</p>
     <p class="video__intro">
-      Смотрите видеопрезентацию и скорее за билетами, пока они не подорожали в
-      очередной раз!
+      {t.video.intro}
     </p>
   </div>
 
-  <div class="video__wrapper" data-player>
+  <div
+    class="video__wrapper"
+    data-player
+    data-player-label-play={t.video.play}
+    data-player-label-pause={t.video.pause}
+    data-player-label-sound-on={t.video.soundOn}
+    data-player-label-sound-off={t.video.soundOff}
+  >
     <video
       class="video__media"
       src="/sedona.mp4"
@@ -29,7 +41,7 @@
           data-player-toggle
         >
           <span class="visually-hidden" data-player-toggle-label
-            >Включить видео</span
+            >{t.video.play}</span
           >
           <svg
             class="video__icon video__icon--play"
@@ -50,7 +62,7 @@
         </button>
 
         <button class="video__button" type="button" data-player-replay>
-          <span class="visually-hidden">Проиграть заново</span>
+          <span class="visually-hidden">{t.video.replay}</span>
           <svg
             class="video__icon video__icon--replay"
             width="16"
@@ -72,7 +84,7 @@
             max="1000"
             step="1"
             value="0"
-            aria-label="Перемотка видео"
+            aria-label={t.video.progress}
             data-player-progress
           />
         </div>
@@ -83,7 +95,7 @@
           data-player-sound
         >
           <span class="visually-hidden" data-player-sound-label
-            >Выключить звук</span
+            >{t.video.soundOff}</span
           >
           <svg
             class="video__icon video__icon--sound"
@@ -108,7 +120,7 @@
           type="button"
           data-player-fullscreen
         >
-          <span class="visually-hidden">На весь экран</span>
+          <span class="visually-hidden">{t.video.fullscreen}</span>
           <svg
             class="video__icon video__icon--fullscreen"
             width="20"
