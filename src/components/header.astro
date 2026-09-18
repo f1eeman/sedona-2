@@ -1,13 +1,13 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n'
 import { localeOf, useTranslations } from '@/i18n'
-import { NAV_HREF, NAV_KEYS } from '@/data/nav'
+import { NAV_HREF, NAV_KEYS, type NavKey } from '@/data/nav'
 
 interface Props {
-  active: string
+  page: NavKey
 }
 
-const { active } = Astro.props
+const { page } = Astro.props
 
 const locale = localeOf(Astro.currentLocale)
 const t = useTranslations(Astro.currentLocale)
@@ -36,10 +36,10 @@ const homeHref = getRelativeLocaleUrl(locale, NAV_HREF.index)
             <li
               class:list={[
                 'site-list__item',
-                NAV_HREF[key] === active && 'site-list__item--active',
+                key === page && 'site-list__item--active',
               ]}
             >
-              {NAV_HREF[key] === active ? (
+              {key === page ? (
                 <span class="site-list__link">{t.nav[key]}</span>
               ) : (
                 <a
@@ -56,7 +56,7 @@ const homeHref = getRelativeLocaleUrl(locale, NAV_HREF.index)
     </details>
 
     {
-      active === '/' ? (
+      page === 'index' ? (
         <span class="main-nav__logo">
           <picture>
             <source

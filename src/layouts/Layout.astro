@@ -38,7 +38,7 @@ const path = NAV_HREF[page]
   </head>
   <body>
     <Sprite />
-    <Header active={path} />
+    <Header {page} />
     <main class="page-main">
       <h1 class="visually-hidden">{meta.heading}</h1>
       <Banner variant={banner} />
