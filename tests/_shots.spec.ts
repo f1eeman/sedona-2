@@ -7,6 +7,12 @@ const PAGES = [
   { path: '/photo/', name: 'photo' },
   { path: '/form/', name: 'form' },
   { path: '/hotels/', name: 'hotels' },
+  { path: '/kk/', name: 'kk-index' },
+  { path: '/kk/hotels/', name: 'kk-hotels' },
+  { path: '/kk/form/', name: 'kk-form' },
+  { path: '/en/', name: 'en-index' },
+  { path: '/en/hotels/', name: 'en-hotels' },
+  { path: '/en/form/', name: 'en-form' },
 ]
 
 const SIZES = [
