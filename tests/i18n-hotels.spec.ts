@@ -33,4 +33,23 @@ test.describe('гостиницы на трёх языках', () => {
       ),
     ).toBeVisible()
   })
+
+  test('сортировка по типу читает язык страницы, а не браузера', async ({
+    page,
+  }) => {
+    await page.goto('/en/hotels/')
+
+    await page.getByRole('button', { name: 'By type' }).click()
+
+    const titles = await page
+      .locator('[data-hotel]:not([hidden])')
+      .locator('.hotel-card__title')
+      .allTextContents()
+
+    expect(titles).toStrictEqual([
+      'Villas at Poco Diablo',
+      'Amara Resort & Spa',
+      'Desert Quail Inn',
+    ])
+  })
 })

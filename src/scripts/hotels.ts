@@ -24,13 +24,13 @@ const numberOf = (input: HTMLInputElement, fallback: number): number => {
   return Number.isNaN(value) ? fallback : value
 }
 
-const compare = (a: HTMLElement, b: HTMLElement, key: SortKey): number => {
+const compare = (
+  a: HTMLElement,
+  b: HTMLElement,
+  key: SortKey,
+  tag: string | undefined,
+): number => {
   if (key === 'kind') {
-    const tag =
-      document.querySelector<HTMLElement>('[data-hotels-list]')?.dataset[
-        'locale'
-      ]
-
     return (a.dataset['kindLabel'] ?? '').localeCompare(
       b.dataset['kindLabel'] ?? '',
       tag,
@@ -81,6 +81,7 @@ export function initHotels(): void {
 
   const min = numberOf(catalog.from, 0)
   const max = numberOf(catalog.to, 0)
+  const tag = catalog.list.dataset['locale']
 
   let key: SortKey = 'price'
   let direction: Direction = 'asc'
@@ -109,7 +110,7 @@ export function initHotels(): void {
     })
 
     visible
-      .sort((a, b) => (direction === 'asc' ? 1 : -1) * compare(a, b, key))
+      .sort((a, b) => (direction === 'asc' ? 1 : -1) * compare(a, b, key, tag))
       .forEach((card) => {
         catalog.list.append(card)
       })
