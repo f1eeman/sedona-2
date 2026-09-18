@@ -1,0 +1,76 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { LOCALES, localeOf, useTranslations } from '@/i18n'
+
+interface Props {
+  path: string
+}
+
+const { path } = Astro.props
+
+const locale = localeOf(Astro.currentLocale)
+const t = useTranslations(Astro.currentLocale)
+---
+
+<nav class="language" aria-label={t.language.label}>
+  <ul class="language__list">
+    {
+      LOCALES.map((code) => (
+        <li class="language__item">
+          {code === locale ? (
+            <span class="language__current" lang={code} aria-current="true">
+              {t.language.names[code]}
+            </span>
+          ) : (
+            <a
+              class="language__link"
+              href={getRelativeLocaleUrl(code, path)}
+              lang={code}
+              hreflang={code}
+            >
+              {t.language.names[code]}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .language__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 20px;
+  }
+
+  .language__current,
+  .language__link {
+    font-size: 14px;
+    line-height: 26px;
+    color: var(--color-text-strong);
+  }
+
+  .language__current {
+    font-weight: 700;
+  }
+
+  .language__link {
+    transition: color var(--duration-quick) var(--ease-out);
+  }
+
+  .language__link:focus-visible {
+    outline: 3px solid var(--color-text-strong);
+    outline-offset: 3px;
+  }
+
+  .language__link:hover,
+  .language__link:focus {
+    color: var(--color-brand);
+  }
+
+  .language__link:active {
+    color: var(--color-text-strong-faded);
+  }
+</style>

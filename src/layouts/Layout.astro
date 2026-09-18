@@ -44,7 +44,7 @@ const path = NAV_HREF[page]
       <Banner variant={banner} />
       <slot />
     </main>
-    <Footer />
+    <Footer {page} />
     <script>
       import { initReveal } from '@/scripts/reveal'
 

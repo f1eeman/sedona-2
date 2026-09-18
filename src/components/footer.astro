@@ -1,24 +1,35 @@
 ---
+import LanguageSwitcher from '@/components/language-switcher.astro'
+import { useTranslations } from '@/i18n'
+import { NAV_HREF, type NavKey } from '@/data/nav'
+
+interface Props {
+  page: NavKey
+}
+
+const { page } = Astro.props
+
+const t = useTranslations(Astro.currentLocale)
 const YEAR = new Date().getFullYear()
 
 const SOCIAL = [
   {
     href: 'https://www.twitter.com/sedona',
-    label: 'Мы в Твиттере',
+    label: t.footer.social.twitter,
     icon: 'icon-twitter',
     width: 18,
     height: 14,
   },
   {
     href: 'https://www.facebook.com/sedona',
-    label: 'Мы в Фейсбуке',
+    label: t.footer.social.facebook,
     icon: 'icon-facebook',
     width: 9,
     height: 18,
   },
   {
     href: 'https://www.youtube.com/sedona',
-    label: 'Мы в Ютьюбе',
+    label: t.footer.social.youtube,
     icon: 'icon-youtube',
     width: 20,
     height: 14,
@@ -28,6 +39,10 @@ const SOCIAL = [
 
 <footer class="page-footer">
   <div class="page-footer__container">
+    <div class="page-footer__language">
+      <LanguageSwitcher path={NAV_HREF[page]} />
+    </div>
+
     <p class="page-footer__sedona-hashtag sedona-hashtag">
       <a class="sedona-hashtag__link" href="https://www.instagram.com/sedona"
         >#visitsedona</a
@@ -55,7 +70,7 @@ const SOCIAL = [
     </ul>
 
     <p class="page-footer__copyright copyright">
-      <span class="copyright__text">© {YEAR} Седона</span>
+      <span class="copyright__text">© {YEAR} {t.site.name}</span>
     </p>
   </div>
 </footer>
@@ -67,6 +82,11 @@ const SOCIAL = [
 
   .page-footer__container {
     padding: 32px 20px 23px;
+  }
+
+  .page-footer__language {
+    margin-inline: auto;
+    margin-bottom: 28px;
   }
 
   .page-footer__sedona-hashtag {
@@ -180,6 +200,11 @@ const SOCIAL = [
     .page-footer__social-list,
     .page-footer__copyright {
       margin: 0;
+    }
+
+    .page-footer__language {
+      flex-basis: 100%;
+      margin: 0 0 24px;
     }
 
     .sedona-hashtag {
