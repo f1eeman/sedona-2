@@ -51,13 +51,13 @@ HTML сырым весит заметно больше, чем под gzip.
 кэшировать вечно. `index.html`
 кэшировать нельзя: иначе вернувшийся посетитель не увидит новую вёрстку.
 
-| Что                                  | `Cache-Control`                       |
-| ------------------------------------ | ------------------------------------- |
-| `/_astro/*`                          | `public, max-age=31536000, immutable` |
-| `/`, `/photo/`, `/form/`, `/hotels/` | `no-cache`                            |
-| `/favicon.svg`                       | `public, max-age=3600`                |
-| `/img/*`                             | `public, max-age=604800`              |
-| `/robots.txt`, `/sitemap*.xml`       | `public, max-age=3600`                |
+| Что                                                                                                                                      | `Cache-Control`                       |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
+| `/_astro/*`                                                                                                                              | `public, max-age=31536000, immutable` |
+| `/`, `/photo/`, `/form/`, `/hotels/`, `/kk/`, `/kk/photo/`, `/kk/form/`, `/kk/hotels/`, `/en/`, `/en/photo/`, `/en/form/`, `/en/hotels/` | `no-cache`                            |
+| `/favicon.svg`                                                                                                                           | `public, max-age=3600`                |
+| `/img/*`                                                                                                                                 | `public, max-age=604800`              |
+| `/robots.txt`, `/sitemap*.xml`                                                                                                           | `public, max-age=3600`                |
 
 Превью ссылки — кадр баннера `/img/bg-back-desktop@1x.jpg` (разбор в
 `docs/adr/0003-seo-metadata-and-indexing.md`). Имя у него без хеша, а мессенджеры
@@ -128,6 +128,14 @@ curl -I https://<домен>/                 # 200, text/html, no-cache
 curl -I https://<домен>/photo/           # 200
 curl -I https://<домен>/form/            # 200
 curl -I https://<домен>/hotels/          # 200
+curl -I https://<домен>/kk/              # 200
+curl -I https://<домен>/kk/photo/        # 200
+curl -I https://<домен>/kk/form/         # 200
+curl -I https://<домен>/kk/hotels/       # 200
+curl -I https://<домен>/en/              # 200
+curl -I https://<домен>/en/photo/        # 200
+curl -I https://<домен>/en/form/         # 200
+curl -I https://<домен>/en/hotels/       # 200
 curl -I https://<домен>/robots.txt       # 200
 curl -I https://<домен>/sitemap-index.xml
 curl -I https://<домен>/img/bg-back-desktop@1x.jpg  # 200, image/jpeg
