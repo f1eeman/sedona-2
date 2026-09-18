@@ -1,10 +1,22 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n'
+import { localeOf, useTranslations } from '@/i18n'
+import { NAV_HREF } from '@/data/nav'
+
+const locale = localeOf(Astro.currentLocale)
+const t = useTranslations(Astro.currentLocale)
+---
+
 <section class="page-main__appointment appointment">
-  <h2 class="appointment__title" data-reveal>Заинтересовались?</h2>
+  <h2 class="appointment__title" data-reveal>{t.appointment.title}</h2>
   <p class="appointment__info" data-reveal>
-    Укажите предполагаемые даты поездки, и мы покажем вам лучшие предложения
-    гостиниц в седоне
+    {t.appointment.text}
   </p>
-  <a class="appointment__search button" href="/hotels/">Найти гостиницу</a>
+  <a
+    class="appointment__search button"
+    href={getRelativeLocaleUrl(locale, NAV_HREF.hotels)}
+    >{t.appointment.action}</a
+  >
 </section>
 
 <style>

@@ -5,17 +5,20 @@ import {
   FEATURES_FRINGE,
   FEATURES_PICTURES,
 } from '@/data/features'
+import { useTranslations } from '@/i18n'
+
+const t = useTranslations(Astro.currentLocale)
 ---
 
 <section class="page-main__features features">
-  <h2 class="visually-hidden">Список преимуществ</h2>
+  <h2 class="visually-hidden">{t.features.heading}</h2>
 
   <div class="features__box-header">
     <p class="features__slogan main-style-title">
-      Седона &ndash; небольшой городок в Аризоне, заслуживающий большего!
+      {t.features.slogan}
     </p>
     <p class="features__text">
-      Рассмотрим 5 причин, по которым Седона круче, чем гранд каньон!
+      {t.features.text}
     </p>
   </div>
 
@@ -39,17 +42,20 @@ import {
               class="features__subtitle features__subtitle--attractions main-style-title"
               data-reveal
             >
-              {feature.title}
+              {t.features.cards[feature.id].title}
             </h3>
             <span class="features__number" data-reveal>
-              {feature.number}
+              {t.features.cards[feature.id].number}
             </span>
             <p class="features__info features__info--attractions" data-reveal>
-              {feature.text}
+              {t.features.cards[feature.id].text}
             </p>
           </div>
           <div class="features__box-image">
-            <ResponsiveImage name={feature.image} alt={feature.imageAlt} />
+            <ResponsiveImage
+              name={feature.image}
+              alt={t.features.cards[feature.id].imageAlt}
+            />
           </div>
         </li>
       ))
@@ -69,10 +75,10 @@ import {
               class="features__subtitle features__subtitle--fringe main-style-title"
               data-reveal
             >
-              {feature.title}
+              {t.features.cards[feature.id].title}
             </h3>
             <span class="features__number features__number--fringe" data-reveal>
-              {feature.number}
+              {t.features.cards[feature.id].number}
             </span>
             <p
               class:list={[
@@ -82,7 +88,7 @@ import {
               ]}
               data-reveal
             >
-              {feature.text}
+              {t.features.cards[feature.id].text}
             </p>
           </div>
         </li>
@@ -92,26 +98,26 @@ import {
     <li class="features__item features__item--sublist">
       <ul class="features__sublist">
         {
-          FEATURES_COMFORT.map((feature) => (
+          FEATURES_COMFORT.map((id) => (
             <li
               class:list={[
                 'features__point',
                 'features__point--icon',
-                `features__point--${feature.icon}`,
+                `features__point--${id}`,
               ]}
               data-reveal="scale"
             >
               <h3 class="features__subtitle features__subtitle--comfort main-style-title">
-                {feature.title}
+                {t.features.comfort[id].title}
               </h3>
               <p
                 class:list={[
                   'features__info',
                   'features__info--comfort',
-                  `features__info--${feature.icon}`,
+                  `features__info--${id}`,
                 ]}
               >
-                {feature.text}
+                {t.features.comfort[id].text}
               </p>
             </li>
           ))
