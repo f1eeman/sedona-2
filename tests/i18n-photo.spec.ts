@@ -8,12 +8,17 @@ test.describe('фото и видео на трёх языках', () => {
       page.getByRole('heading', { name: 'Local vegetation' }),
     ).toBeVisible()
     await expect(page.getByText('Photo by:').first()).toBeVisible()
-    await expect(page.getByRole('button', { name: 'Play video' })).toBeVisible()
 
-    await page.getByRole('button', { name: 'Play video' }).click()
+    await page.locator('[data-player]').scrollIntoViewIfNeeded()
 
-    await expect(
-      page.getByRole('button', { name: 'Pause video' }),
-    ).toBeVisible()
+    await expect(page.locator('[data-player-toggle]')).toHaveAccessibleName(
+      'Pause video',
+    )
+
+    await page.locator('[data-player-toggle]').click()
+
+    await expect(page.locator('[data-player-toggle]')).toHaveAccessibleName(
+      'Play video',
+    )
   })
 })
